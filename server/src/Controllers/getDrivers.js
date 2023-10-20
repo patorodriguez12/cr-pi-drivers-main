@@ -16,7 +16,7 @@ const getDrivers = async (req, res) => {
             res.status(500).json({ error: 'Error al obtener los conductores desde la API' })
         }
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener los conductores desde la API' })
+        res.status(500).json({ error: error.msg })
     }
 };
 
