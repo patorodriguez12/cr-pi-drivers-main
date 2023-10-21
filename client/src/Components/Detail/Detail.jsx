@@ -50,13 +50,13 @@ export default function Detail() {
             </div>
             <div className={styles.detailContent}>
                 <div className={styles.imageDetail}>
-                    <img src={driver.image} alt={driver.name} className={styles.imageDriver} />
+                    <img src={driver.image.url} alt={driver.name} className={styles.imageDriver} />
                 </div>
                 <div className={styles.box}>
-                    <h1 className={styles.titleDriver}>{driver.name}</h1>
+                    <h1 className={styles.titleDriver}>{driver.name.forename}</h1>
                     <h3>ID: {driver.id}</h3>
                     <h3>Forename: {driver.name.forename}</h3>
-                    <h3>Surename: {driver.name.surename}</h3>
+                    <h3>Surname: {driver.name.surname}</h3>
                     <h3>Date of birth: {driver.dob}</h3>
                     <h3>Nationality: {driver.nationality}</h3>
                     <h3>Teams: {driver.teams}</h3>

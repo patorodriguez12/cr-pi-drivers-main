@@ -31,10 +31,10 @@ export default function rootReducer(state = initialState, { type, payload }) {
                 filteredData: payload,
                 sortOrder: "asc"
             };
-        case SET_TOTAL_PAGE: // reducer para actualizar total de paginas
+        case SET_TOTAL_PAGE: // reducer para actualizar total de páginas
             return {
                 ...state,
-                totalPages: matchMedia.ceil(state.filteredData.length / 9)
+                totalPages: Math.ceil(state.filteredData.length / 9)
             };
         case SET_PAGE: // reducer para actualizar pagina actual
             return {
@@ -108,10 +108,15 @@ export default function rootReducer(state = initialState, { type, payload }) {
             const newSortOrder = state.sortOrder === "asc" ? "desc" : "asc";
             const sortedList = [...state.filteredData];
             sortedList.sort((a, b) => {
-                if (newSortOrder === "asc") {
-                    return a.name.localeCompare(b.name);
+                if (a.name && b.name) {
+                    if (newSortOrder === "asc") {
+                        return a.name.localeCompare(b.name);
+                    } else {
+                        return b.name.localeCompare(a.name);
+                    }
                 } else {
-                    return b.name.localeCompare(a.name);
+                    // Manejo de caso en el que a.name o b.name no están definidos
+                    return 0;
                 }
             });
 

@@ -1,0 +1,64 @@
+/* Estilos para la tarjeta */
+.card {
+    width: 280px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 12px;
+    background-color: rgba(171, 218, 225);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s; /* Agregamos una transición al efecto de aumento de tamaño */
+}
+
+/* Estilos para el efecto hover */
+.card:hover {
+    transform: scale(1.05); /* Aumenta el tamaño al 105% en hover */
+}
+
+/* Estilos para la imagen del conductor */
+.card img {
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Estilos para el contenido de la tarjeta */
+.card-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+/* Estilos para el nombre del conductor */
+.card h1 {
+    margin-top: 12px;
+    color: #333;
+    font-size: 24px;
+}
+
+/* Estilos para la descripción del conductor */
+.card p {
+    margin-top: 8px;
+    color: #666;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+/* Estilos para el enlace de regreso */
+.link {
+    text-decoration: none;
+    color: #0074cc;
+    font-weight: bold;
+}
+
+.link:hover {
+    text-decoration: underline;
+}

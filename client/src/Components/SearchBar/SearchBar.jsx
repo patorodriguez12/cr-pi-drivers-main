@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { connect } from 'react-redux';
 import { cleanFilter, onSearchID, setPage } from '../../redux/actions';
 
-function SearchBar({ restart, searchByID, isLoading, currentPage, restartPage }) {
+function SearchBar({ restart, searchByName, isLoading, currentPage, restartPage }) {
     const [name, setName] = useState('');
 
     const handleChange = (e) => {
@@ -23,7 +23,7 @@ function SearchBar({ restart, searchByID, isLoading, currentPage, restartPage })
     return (
         <div>
             <input type="search" placeholder="Search driver" onChange={handleChange} value={name} />
-            <button onClick={() => handleClick(currentPage=1, name)} disable={isLoading || name.trim() === ''}>
+            <button onClick={() => handleClick(currentPage, name)} disabled={isLoading || name.trim() === ''}>
                 {isLoading ? 'Loading...' : 'Search'}
             </button>
             <button onClick={() => handleRestartClick()}>Clean filter</button>
