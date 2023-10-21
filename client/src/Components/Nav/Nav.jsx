@@ -1,10 +1,19 @@
-import styles from "./Nav.module.css"
-import SearchBar from "../SearchBar/SearchBar";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import style from './Nav.module.css';
+import SearchBar from '../SearchBar/SearchBar';
+import Sort from '../Sort/Sort';
 
-export default function Nav(props) {
+export default function Nav() {
     return (
-        <div>
-            <SearchBar onSearch={props.onSearch} />
+        <div className={style.nav}>
+            <Link to={`/`} >
+                <button>🡰</button>
+            </Link>
+            <Sort />
+            <SearchBar />
         </div>
-    );
+    )
 }

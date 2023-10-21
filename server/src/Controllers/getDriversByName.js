@@ -1,24 +1,37 @@
 const { Driver, Team } = require('../db');
 const axios = require('axios');
-const { sequelize } = require('sequelize');
+const { Op } = require('sequelize');
 
 const getDriversByName = async (req, res) => {
     try {
-        // Obtiene el valor del parámetro 'name' de la consulta y conviértelo a minúsculas
+        // Obten el valor del parámetro 'name' de la consulta y conviértelo a minúsculas
         const name = (req.query.name || '').toLowerCase();
+
+        // Realiza la búsqueda en la API
+        const apiResponse = await axios.get('http://localhost:5000/drivers');
 
         // Realiza la búsqueda en la base de datos
         const databaseDrivers = await Driver.findAll({
-            where: sequelize.where(sequelize.fn('LOWER', sequelize.col('forename')), 'LIKE', `%${name}%`),
+            where: {
+                forename: {
+                    [Op.iLike]: `%${name}%`,
+                },
+            },
             limit: 15, // Limita a 15 resultados
         });
-
-        // Realiza la búsqueda en la API
-        const apiResponse = await axios.get(`http://localhost:5000/drivers?name.forename=${name}`);
+        // Filtra los conductores de la API que coinciden con el nombre
+        const driversFromAPI = apiResponse.data.filter(driver => driver.name.forename.toLowerCase().includes(name));
 
         // Combina los resultados de la base de datos y la API
-        const driversFromAPI = apiResponse.data;
         const allDrivers = [...databaseDrivers, ...driversFromAPI];
+
+        if (apiResponse.data) {
+            const driversFromAPI = apiResponse.data.filter(driver => driver.name.forename.toLowerCase().includes(name));
+            // Resto del código...
+        } else {
+            // Manejo de error si no se obtuvieron datos de la API
+            res.status(500).json({ error: 'Error al obtener datos de la API' });
+        }
 
         if (allDrivers.length > 0) {
             res.status(200).json(allDrivers);

@@ -1,17 +1,17 @@
+import style from './Card.module.css';
+import { Link } from 'react-router-dom';
+import React from 'react';
 
-export default function Card(props) {
+export default function Card({ driver }) {
+    const { id, image, name, nationality, dob } = driver;
     return (
-        <div>
-            <div>
-                <button onClick={props.onClose}>X</button>
-            </div>
-            <div>
-                <h2>{props.name.forename}</h2>
-                <h4>{props.name.surename}</h4>
-                <h4>{props.nationality}</h4>
-                <h4>{props.dob}</h4>
-            </div>
-            <img src={props.image} />
+        <div className={style.card}>
+            <Link to={`/detail/${id}`} className={style.link}>
+                <img src={image} alt="F1 Driver" />
+                <h1>{name.forename}</h1>
+                <p>{nationality}</p>
+                <p>{dob}</p>
+            </Link>
         </div>
-    );
+    )
 }
