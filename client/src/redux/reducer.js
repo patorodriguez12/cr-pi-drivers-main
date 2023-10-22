@@ -23,6 +23,10 @@ const initialState = {
 }
 
 export default function rootReducer(state = initialState, { type, payload }) {
+
+    console.log("Reducer called with action type:", type);
+    console.log("Current state:", state);
+    
     switch (type) {
         case GET_DRIVERS: // reducer para actualizar todos los drivers
             return {

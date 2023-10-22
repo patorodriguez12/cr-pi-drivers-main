@@ -1,0 +1,74 @@
+/* Estilos para el contenedor principal */
+.detail {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos para el encabezado */
+.titleDetail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(152, 125, 124);
+    height: 80px;
+    margin: 10px;
+}
+
+.title {
+    flex: 1;
+    text-align: center;
+}
+
+.back {
+    align-self: flex-end;
+    background-color: rgba(171, 218, 225);
+    cursor: pointer;
+    width: 40px;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos para el contenido principal */
+.detailContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra verticalmente el contenido */
+    margin-top: 40px;
+}
+
+/* Estilos para la imagen del conductor */
+.imageDetail {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente la imagen */
+    margin-bottom: 20px; /* Espacio entre la imagen y la caja de información */
+}
+
+.imageDriver {
+    width: 40em;
+    height: auto; /* La altura se ajustará automáticamente según el contenido */
+    object-fit: cover;
+    box-shadow: 10px 10px rgba(171, 218, 225);
+    border-radius: 10px;
+}
+
+.titleDriver {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Estilos para la caja de información */
+.box {
+    padding: 20px;
+    text-align: left;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    background-color: rgba(171, 218, 225);
+    border-radius: 10px;
+    overflow: hidden; /* Controla el desbordamiento del contenido largo */
+}

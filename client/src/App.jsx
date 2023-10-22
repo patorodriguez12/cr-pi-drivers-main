@@ -6,7 +6,7 @@ import Detail from './Components/Detail/Detail';
 
 function App() {
     return (
-        <div className="App" style={{ padding: "25px" }}>
+        <div className="App">
             <Routes>
                 <Route path='/' element={<Landing />} />
                 <Route path='/home' element={<Home />} />

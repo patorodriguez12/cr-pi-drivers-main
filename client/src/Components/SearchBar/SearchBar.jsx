@@ -1,52 +1,58 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { cleanFilter, onSearchID, setPage } from '../../redux/actions';
+import { cleanFilter, onSearchName, onSearchId, setPage } from '../../redux/actions';
 
-function SearchBar({ restart, searchByName, isLoading, currentPage, restartPage }) {
-    const [name, setName] = useState('');
+function SearchBar({ cleanFilter, onSearchName, onSearchId, setPage, isLoading, currentPage }) {
+  const [searchTerm, setSearchTerm] = useState('');
 
-    const handleChange = (e) => {
-        setName(e.target.value);
-    };
+  const handleSearch = () => {
+    // Si la búsqueda no está vacía, determina si es un número (id) o una cadena (name)
+    if (searchTerm) {
+      const searchValue = isNaN(searchTerm) ? searchTerm : parseInt(searchTerm, 10);
 
-    const handleClick = (pageNumber, name) => {
-        searchByName(name);
-        restartPage(pageNumber);
-    };
+      if (isNaN(searchValue)) {
+        // Búsqueda por name
+        onSearchName(searchTerm);
+      } else {
+        // Búsqueda por id
+        onSearchId(searchValue);
+      }
 
-    const handleRestartClick = () => {
-        restart();
-        setName('');
-    };
+      // Reinicia la página a la primera página
+      setPage(1);
+    }
+  };
 
-    return (
-        <div>
-            <input type="search" placeholder="Search driver" onChange={handleChange} value={name} />
-            <button onClick={() => handleClick(currentPage, name)} disabled={isLoading || name.trim() === ''}>
-                {isLoading ? 'Loading...' : 'Search'}
-            </button>
-            <button onClick={() => handleRestartClick()}>Clean filter</button>
-        </div>
-    )
+  const handleReset = () => {
+    // Limpia el filtro de búsqueda y reinicia la página
+    cleanFilter();
+    setPage(1);
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Buscar por ID o Nombre"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <button onClick={handleSearch}>Buscar</button>
+      <button onClick={handleReset}>Limpiar</button>
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => ({
-    isLoading: state.isLoading
+  isLoading: state.isLoading, // Asegúrate de que isLoading sea un estado válido en tu Redux
+  currentPage: state.currentPage, // Asegúrate de que currentPage sea un estado válido en tu Redux
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        searchByName: function (id) {
-            dispatch(onSearchID(id))
-        },
-        restartPage: function (pageNumber) {
-            dispatch(setPage(pageNumber))
-        },
-        restart: function () {
-            dispatch(cleanFilter())
-        }
-    }
+const mapDispatchToProps = {
+  cleanFilter,
+  onSearchName,
+  onSearchId,
+  setPage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

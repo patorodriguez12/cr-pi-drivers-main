@@ -13,14 +13,16 @@ import { GET_DRIVERS,
     CLEAN_FILTER,
     SET_CLEAN } from "./actionType";
 
-const URL = "http://localhost:3001/drivers";
+const URL = "http://localhost:3001";
 
 // Accion para consultar todos los drivers
 export function allDrivers() {
     return async function (dispatch) {
-        const service = await axios(URL)
+        const service = await axios(URL + "/drivers")
         const allDriversData = service.data
         
+        // console.log("Data from backend:", allDriversData);
+
         dispatch({
             type: GET_DRIVERS,
             payload: allDriversData
@@ -43,30 +45,51 @@ export const setPage = (pageNumber) => ({
     payload: pageNumber,
 });
 
-// Accion para buscar por id
-export function onSearchID(id) {
+// Acción para buscar por nombre
+export function onSearchName(name) {
     return async function (dispatch) {
         try {
-            dispatch(setLoading(true))
+            dispatch(setLoading(true)); // Activar el indicador de carga
 
-            const service = await axios(URL + `${id}`)
-            const allDriversData = service. data
+            // Realizar la búsqueda por nombre
+            const response = await axios.get(`${URL}/drivers?name=${name}`);
 
             dispatch({
                 type: SEARCH_DRIVERS,
-                payload: allDriversData
-            })
-
-            dispatch(setTotalPage())
+                payload: response.data, // Asume que la API devuelve los resultados
+            });
         } catch (error) {
-            if (error.response.status === 404) {
-                return alert('No drivers found with that ID')
-            }
+            console.error('Error al buscar por nombre:', error);
         } finally {
-            dispatch(setLoading(false))
+            dispatch(setLoading(false)); // Desactivar el indicador de carga
         }
     }
-};
+}
+
+// Acción para buscar por ID
+// Acción para buscar por ID
+export function onSearchId(id) {
+    return async function (dispatch) {
+        try {
+            dispatch(setLoading(true)); // Activar el indicador de carga
+
+            // Realizar la búsqueda por ID
+            const response = await axios.get(`${URL}/drivers/${id}`);
+
+            dispatch({
+                type: SEARCH_DRIVERS,
+                payload: response.data, // Asume que la API devuelve los resultados
+            });
+        } catch (error) {
+            console.error('Error al buscar por ID:', error);
+        } finally {
+            dispatch(setLoading(false)); // Desactivar el indicador de carga
+        }
+    }
+}
+
+
+
 
 // Accion para actualizar el estado de carga
 export const setLoading = (isLoading) => ({
@@ -80,7 +103,7 @@ export function allTeams() {
         try {
             dispatch(setLoading(true))
 
-            const serviceTemp = await  axios(URL + "teams");
+            const serviceTemp = await axios(URL + "/teams");
             const allTempData = serviceTemp.data;
 
             dispatch({
