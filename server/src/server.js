@@ -3,6 +3,8 @@ const router = require("./routes");
 const morgan = require("morgan");
 const cors = require("cors");
 
+require('./db.js');
+
 const server = express();
 
 server.use(morgan("dev"));

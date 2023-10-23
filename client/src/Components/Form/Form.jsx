@@ -108,14 +108,14 @@ export default function Form() {
                     <span>{errors?.image && errors.image}</span>
                     <br />
                     <label>Forename: <input
-                        type="text" key="forename" name="forename" value={formData.name.forename}
+                        type="text" key="forename" name="forename" value={formData.forename}
                         onChange={handleChange} /> </label>
-                    <span>{errors?.name.forename && errors.name.forename}</span>
+                    <span>{errors?.forename && errors.forename}</span>
                     <br />
                     <label>Surname: <input
-                        type="text" key="surname" name="surname" value={formData.name.surname}
+                        type="text" key="surname" name="surname" value={formData.surname}
                         onChange={handleChange} /> </label>
-                    <span>{errors?.name.surname && errors.name.surname}</span>
+                    <span>{errors?.surname && errors.surname}</span>
                     <br />
                     <label>Nationality: <input
                         type="text" key="nationality" name="nationality" value={formData.nationality}

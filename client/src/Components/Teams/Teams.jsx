@@ -1,41 +1,47 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { filteredByTeam } from '../../redux/actions';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { allTeams, filteredByTeam } from '../../redux/actions';
 
-export default function Team() {
-    const teams = useSelector((state) => state.allTeams); // Se suscribe al estado global
-    const isLoading = useSelector((state) => state.isLoading);
-    const clean = useSelector((state) => state.isClean);
+export default function Teams() {
+  const dispatch = useDispatch();
+  const teams = useSelector((state) => state.allTeams);
+  const filteredDrivers = useSelector((state) => state.filteredData);
 
-    const dispatch = useDispatch();
-    const [selectedTeam, setSelectedTeam] = useState('all'); // se define el estado local
-    useEffect(() => {
-        if (clean) {
-            setSelectedTeam('all'); // Escucha el estado global, y si es verdadero actualiza el estado local
-        }
-    }, [clean]);
-    console.log(clean)
-    console.log(selectedTeam)
+  const [selectedTeam, setSelectedTeam] = useState('');
 
-    const handleOptionSelect = (e) => {
-        const option = e.target.value;
-        setSelectedTeam(option); // actualizar el estado con la opcion seleccionada
-        dispatch(filteredByTeam(option)); // enviar la opcion seleccionada a la accion
-    };
+  useEffect(() => {
+    dispatch(allTeams());
+  }, [dispatch]);
 
-    return (
+  const handleTeamChange = (team) => {
+    setSelectedTeam(team);
+    dispatch(filteredByTeam(team));
+  };
+
+  return (
+    <div>
+      {teams && teams.length > 0 ? (
+        <select onChange={(e) => handleTeamChange(e.target.value)}>
+          <option value="">Selecciona un equipo</option>
+          {teams.map((team, index) => (
+            <option key={index} value={team}>
+              {team}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <p>Cargando equipos...</p>
+      )}
+      {selectedTeam && (
         <div>
-            Teams: {isLoading? 'Loading...': 
-            <select value={selectedTeam} onChange={handleOptionSelect}>'
-            <option value="all">All</option>
-            {teams.map((team) => (
-                <option key={team.name} value={team.name}>
-                    {team.name}
-                </option>
+          <h2>Corredores del equipo: {selectedTeam}</h2>
+          <ul>
+            {filteredDrivers.map((driver) => (
+              <li key={driver.id}>{driver.name.forename} {driver.name.surname}</li>
             ))}
-            </select>
-            }
+          </ul>
         </div>
-    )
+      )}
+    </div>
+  );
 }

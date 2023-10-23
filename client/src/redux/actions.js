@@ -100,24 +100,15 @@ export const setLoading = (isLoading) => ({
 // Accion para consultar teams
 export function allTeams() {
     return async function (dispatch) {
-        try {
-            dispatch(setLoading(true))
-
-            const serviceTemp = await axios(URL + "/teams");
-            const allTempData = serviceTemp.data;
-
-            dispatch({
-                type: GET_TEAMS,
-                payload: allTempData
-            })
-
-        } catch (error) {
-            console.log(error)
-        } finally {
-            dispatch(setLoading(false))
-        }
+      try {
+        const response = await axios.get('http://localhost:3001/teams');
+        const teams = response.data;
+        dispatch({ type: 'FETCH_TEAMS_SUCCESS', payload: teams });
+      } catch (error) {
+        dispatch({ type: 'FETCH_TEAMS_ERROR', error });
+      }
     }
-}
+  }
 
 // Accion para crear un nuevo driver
 export function createNewDriver(payload) {
@@ -159,12 +150,6 @@ export function filterByOrigin(option) {
 // Accion para filtrar por teams
 export function filteredByTeam(option) {
     return (dispatch) => {
-        dispatch({
-            type:FILTER_BY_TEAM,
-            payload: option
-        });
-
-        dispatch(setTotalPage());
     }
 }
 
