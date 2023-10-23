@@ -26,7 +26,7 @@ export default function Team() {
 
     return (
         <div>
-            Temperaments: {isLoading? 'Loading...': 
+            Teams: {isLoading? 'Loading...': 
             <select value={selectedTeam} onChange={handleOptionSelect}>'
             <option value="all">All</option>
             {teams.map((team) => (

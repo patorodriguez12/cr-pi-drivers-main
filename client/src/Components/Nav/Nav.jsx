@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import style from './Nav.module.css';
 import SearchBar from '../SearchBar/SearchBar';
 import Sort from '../Sort/Sort';
+import Teams from '../Teams/Teams';
+import Origin from '../Origin/Origin';
 
 export default function Nav() {
     return (
@@ -12,7 +14,12 @@ export default function Nav() {
             <Link to={`/`} >
                 <button>🡰</button>
             </Link>
+            <Link to={`/create`}>
+                <button>Create</button>
+            </Link>
             <Sort />
+            <Teams />
+            <Origin />
             <SearchBar />
         </div>
     )
