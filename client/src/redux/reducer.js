@@ -56,10 +56,10 @@ import {
           ...state,
           isLoading: payload,
         };
-      case GET_TEAMS: // reducer para actualizar los equipos
+        case GET_TEAMS: // Acción para actualizar los equipos
         return {
           ...state,
-          allTeams: payload,
+          allTeams: payload, // Almacena los equipos únicos
         };
       case FILTER_BY_TEAM: // reducer para filtrar por equipo
         const filterTeam = payload;
@@ -110,9 +110,9 @@ import {
         const sortedList = [...state.filteredData];
         sortedList.sort((a, b) => {
           if (newSortOrder === "asc") {
-            return a.name.forename.localeCompare(b.name.forename);
+            return a.forename.localeCompare(b.forename);
           } else {
-            return b.name.forename.localeCompare(a.name.forename);
+            return b.forename.localeCompare(a.forename);
           }
         });
     

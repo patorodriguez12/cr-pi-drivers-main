@@ -5,14 +5,18 @@ module.exports = (sequelize) => {
     sequelize.define('Team', {
       id: {
         type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
-            primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
       },
   
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      created: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
     },
-    { timestamps: false, tableName: "teams" });
+    { timestamps: false});
   };

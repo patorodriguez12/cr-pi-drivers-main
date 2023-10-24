@@ -67,7 +67,6 @@ export function onSearchName(name) {
 }
 
 // Acción para buscar por ID
-// Acción para buscar por ID
 export function onSearchId(id) {
     return async function (dispatch) {
         try {
@@ -103,7 +102,7 @@ export function allTeams() {
       try {
         const response = await axios.get('http://localhost:3001/teams');
         const teams = response.data;
-        dispatch({ type: 'FETCH_TEAMS_SUCCESS', payload: teams });
+        dispatch({ type: GET_TEAMS, payload: teams });
       } catch (error) {
         dispatch({ type: 'FETCH_TEAMS_ERROR', error });
       }
@@ -148,10 +147,35 @@ export function filterByOrigin(option) {
 }
 
 // Accion para filtrar por teams
-export function filteredByTeam(option) {
-    return (dispatch) => {
-    }
-}
+export function filteredByTeam(team) {
+    return (dispatch, getState) => {
+      const allDrivers = getState().allDrivers; // Obtén todos los conductores del estado
+      let filteredDrivers = [];
+  
+      if (team === 'all') {
+        // Si se selecciona 'all', muestra todos los conductores
+        filteredDrivers = allDrivers;
+      } else {
+        // Filtra los conductores por el equipo seleccionado
+        filteredDrivers = allDrivers.filter((driver) => {
+          // Reemplaza 'teamField' por el campo real en el objeto driver que almacena los equipos
+          // Por ejemplo, si los equipos se almacenan en un campo 'teams', deberías usar driver.teams
+          const teamField = 'teams';
+  
+          // Comprueba si el conductor pertenece al equipo seleccionado
+          return driver[teamField] && driver[teamField].includes(team);
+        });
+      }
+  
+      // Actualiza el estado con los conductores filtrados
+      dispatch({
+        type: SEARCH_DRIVERS, // Puedes usar la acción SEARCH_DRIVERS o crear una nueva acción según tus necesidades
+        payload: filteredDrivers,
+      });
+  
+      dispatch(setTotalPage()); // Actualiza el total de páginas
+    };
+  }
 
 // Accion para definir ordenamiento
 export const toggleSortOrder = () => ({

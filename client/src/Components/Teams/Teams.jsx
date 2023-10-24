@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { allTeams, filteredByTeam } from '../../redux/actions';
+import { allTeams, filteredByTeam } from '../../redux/actions'; // Actualiza la importación
 
 export default function Teams() {
   const dispatch = useDispatch();
-  const teams = useSelector((state) => state.allTeams);
+  const teams = useSelector((state) => state.allTeams); // Obtiene los equipos desde el estado
   const filteredDrivers = useSelector((state) => state.filteredData);
 
   const [selectedTeam, setSelectedTeam] = useState('');
 
   useEffect(() => {
-    dispatch(allTeams());
+    dispatch(allTeams()); // Llama a la acción para obtener los equipos
   }, [dispatch]);
 
   const handleTeamChange = (team) => {
     setSelectedTeam(team);
-    dispatch(filteredByTeam(team));
+    dispatch(filteredByTeam(team)); // Llama a la acción para filtrar por equipo
   };
 
   return (
@@ -31,16 +31,6 @@ export default function Teams() {
         </select>
       ) : (
         <p>Cargando equipos...</p>
-      )}
-      {selectedTeam && (
-        <div>
-          <h2>Corredores del equipo: {selectedTeam}</h2>
-          <ul>
-            {filteredDrivers.map((driver) => (
-              <li key={driver.id}>{driver.name.forename} {driver.name.surname}</li>
-            ))}
-          </ul>
-        </div>
       )}
     </div>
   );

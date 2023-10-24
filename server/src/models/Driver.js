@@ -5,8 +5,9 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('Driver', {
     id: {
-      type: DataTypes.INTEGER,
-            primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
 
     forename: {
@@ -14,7 +15,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
 
-    surename: {
+    surname: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -38,6 +39,10 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
+    created: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    }
   },
-  { timestamps: false, tableName: "drivers" });
+  { timestamps: false});
 };
