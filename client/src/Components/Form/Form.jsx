@@ -76,8 +76,8 @@ export default function Form() {
 
             const payload = {
                 image: formData.image,
-                forename: formData.name.forename,
-                surname: formData.name.surname,
+                forename: formData.forename,
+                surname: formData.surname,
                 nationality: formData.nationality,
                 dob: formData.dob,
                 description: formData.description,
@@ -132,31 +132,19 @@ export default function Form() {
                         onChange={handleChange} /> </label>
                     <span>{errors?.description && errors.description}</span>
                     <br />
-                    <label>
-                        Teams:
-                        <div onClick={handleDropdownToggle}>
-                            <select id="teamsDropdown" multiple value={formData.teams} onChange={handleTeamChange}>
-                                {teams.map((team) => (
-                                    <option key={team.id} value={team.id}>{team.name}</option>
-                                ))}
-                            </select>
-                            <div className={styles['selected-values']}>
-                                {formData.teams.map((selectedId) => {
-                                    const selectedTeam = teams.find((team) => team.id === selectedId);
-                                    return (
-                                        <div key={selectedId} className={styles['selected-Team']}>
-                                            {selectedTeam.name}{' '}
-                                            <button type="button" onClick={() => handleTeamRemove(selectedId)}>
-                                                ✖
-                                            </button>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                        <span>{errors?.teams && errors.teams}</span>
-                    </label>
-                    <br />
+                    <label>Equipos:</label>
+<select
+  multiple
+  name="teams"
+  value={formData.teams}
+  onChange={handleTeamChange}
+>
+  {teams.map((team, index) => (
+    <option key={index} value={team}>
+      {team}
+    </option>
+  ))}
+</select>
                     {!isSubmitDisabled ? (
                         <button type='submit'>Send</button>
                     ) : (

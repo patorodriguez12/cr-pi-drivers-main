@@ -113,7 +113,7 @@ export function allTeams() {
 export function createNewDriver(payload) {
     return async function (dispatch) {
         try {
-            const service = await axios.post(URL, payload)
+            const service = await axios.post('http://localhost:3001/drivers/', payload)
 
             dispatch({
                 type: CREATE_DRIVER,

@@ -6,9 +6,7 @@ const getDriverById = require('../Controllers/getDriverById');
 const { postDrivers } = require('../Controllers/postDrivers');
 const { getTeams } = require('../Controllers/getTeams');
 
-// router.get('/', (req, res) => {
-//     res.send("¡Bienvenido a la API de conductores!");
-//   });
+
 router.get('/drivers', getDrivers);
 router.get('/drivers/:id', getDriverById);
 router.post('/drivers', postDrivers);
