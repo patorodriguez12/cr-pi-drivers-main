@@ -4,6 +4,7 @@ import style from './Cards.module.css';
 import { connect } from 'react-redux';
 
 function Cards({ currentPage, driversPerPage, drivers }) {
+    // Resto del código para la paginación y renderizado de las tarjetas
     const startIndex = (currentPage - 1) * driversPerPage;
     const endIndex = startIndex + driversPerPage;
     const driversToShow = drivers.slice(startIndex, endIndex);

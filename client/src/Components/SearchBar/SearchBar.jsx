@@ -33,12 +33,12 @@ function SearchBar({ cleanFilter, onSearchName, onSearchId, setPage, isLoading, 
     <div>
       <input
         type="text"
-        placeholder="Search driver by name"
+        placeholder="Buscar por ID o Nombre"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <button onClick={handleSearch}>Search</button>
-      <button onClick={handleReset}>Clean</button>
+      <button onClick={handleSearch}>Buscar</button>
+      <button onClick={handleReset}>Limpiar</button>
     </div>
   );
 }

@@ -1,23 +1,32 @@
-const { Driver, Team } = require('../db');
-const { Op } = require("sequelize")
+const { Driver, Team } = require('../models/index.models');
+const { Op } = require("sequelize");
 
 const postDrivers = async (req, res) => {
-  const { id, forename, surname, nationality, dob, teams, image, description } = req.body;
-  const driverCreate = await Driver.create({
-    forename,
-    surname,
-    nationality,
-    dob,
-    image,
-    description,
-  });
-  const teamsDB = await Team.findAll({
-    where: { name: teams },
-  })
+  try {
+    const { forename, surname, nationality, dob, teams, image, description } = req.body;
+    const driverCreate = await Driver.create({
+      forename,
+      surname,
+      nationality,
+      dob,
+      description,
+      image, // Si la estructura de tu modelo espera 'image' como un objeto con 'url'
+    });
 
-  driverCreate.addTeam(teamsDB);
-  res.send("Personaje creado con exito")
+    const teamsDB = await Team.findAll({
+      where: {
+        name: {
+          [Op.or]: teams,
+        },
+      },
+    });
+
+    await driverCreate.setTeams(teamsDB); // Usamos setTeams para establecer la relación con los equipos
+
+    res.json(driverCreate);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
 }
-
 
 module.exports = { postDrivers };

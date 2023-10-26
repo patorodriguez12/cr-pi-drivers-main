@@ -32,6 +32,21 @@ export function allDrivers() {
     }
 };
 
+// Accion para consultar teams
+export function allTeams() {
+    return async function (dispatch) {
+        const service = await axios(URL + "/teams");
+        const allTeamsData = service.data;
+
+        dispatch({
+            type: GET_TEAMS,
+            payload: allTeamsData
+        })
+
+        dispatch(setTotalPage())
+    }
+  }
+
 // Accion para definir el total de las paginas
 export function setTotalPage() {
     return {
@@ -67,6 +82,7 @@ export function onSearchName(name) {
 }
 
 // Acción para buscar por ID
+// Acción para buscar por ID
 export function onSearchId(id) {
     return async function (dispatch) {
         try {
@@ -96,24 +112,11 @@ export const setLoading = (isLoading) => ({
     payload:isLoading,
 });
 
-// Accion para consultar teams
-export function allTeams() {
-    return async function (dispatch) {
-      try {
-        const response = await axios.get('http://localhost:3001/teams');
-        const teams = response.data;
-        dispatch({ type: GET_TEAMS, payload: teams });
-      } catch (error) {
-        dispatch({ type: 'FETCH_TEAMS_ERROR', error });
-      }
-    }
-  }
-
 // Accion para crear un nuevo driver
 export function createNewDriver(payload) {
     return async function (dispatch) {
         try {
-            const service = await axios.post('http://localhost:3001/drivers/', payload)
+            const service = await axios.post(URL, payload)
 
             dispatch({
                 type: CREATE_DRIVER,
@@ -147,35 +150,22 @@ export function filterByOrigin(option) {
 }
 
 // Accion para filtrar por teams
-export function filteredByTeam(team) {
+export function filteredByTeam(option) {
     return (dispatch, getState) => {
-      const allDrivers = getState().allDrivers; // Obtén todos los conductores del estado
-      let filteredDrivers = [];
+      // Obtén todos los equipos del estado
+      const allTeams = getState().allTeams;
+      
+      // Filtra los conductores que pertenecen al equipo seleccionado
+      const filteredDrivers = allTeams
+        .find((team) => team.id === option) // Encuentra el equipo seleccionado por su ID
+        .drivers; // Supongamos que los conductores se almacenan en la propiedad 'drivers'
   
-      if (team === 'all') {
-        // Si se selecciona 'all', muestra todos los conductores
-        filteredDrivers = allDrivers;
-      } else {
-        // Filtra los conductores por el equipo seleccionado
-        filteredDrivers = allDrivers.filter((driver) => {
-          // Reemplaza 'teamField' por el campo real en el objeto driver que almacena los equipos
-          // Por ejemplo, si los equipos se almacenan en un campo 'teams', deberías usar driver.teams
-          const teamField = 'teams';
-  
-          // Comprueba si el conductor pertenece al equipo seleccionado
-          return driver[teamField] && driver[teamField].includes(team);
-        });
-      }
-  
-      // Actualiza el estado con los conductores filtrados
       dispatch({
-        type: SEARCH_DRIVERS, // Puedes usar la acción SEARCH_DRIVERS o crear una nueva acción según tus necesidades
+        type: FILTER_BY_TEAM,
         payload: filteredDrivers,
       });
-  
-      dispatch(setTotalPage()); // Actualiza el total de páginas
     };
-  }
+  }  
 
 // Accion para definir ordenamiento
 export const toggleSortOrder = () => ({

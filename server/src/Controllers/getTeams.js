@@ -1,42 +1,48 @@
-const { Team } = require('../db');
-const axios = require('axios');
+const { Team } = require("../models/index.models");
+const axios = require("axios");
 
-const getTeams = async (req, res) => {
+const addTeams = async () => {
   try {
-    // 1. Obtener equipos de la base de datos
-    const databaseTeams = await Team.findAll();
+    const teams = await Team.findAll();
+    if (teams.length == 0) {
+      var arrayTeams = [];
 
-    // 2. Obtener equipos de la API
-    const apiResponse = await axios.get('http://localhost:5000/drivers');
-    const apiTeams = apiResponse.data; // Supongamos que los equipos se encuentran en el arreglo apiTeams
+      // 2. Obtener equipos de la API
+      const apiResponse = await axios.get("http://localhost:5000/drivers");
+      const apiTeams = apiResponse.data; // Supongamos que los equipos se encuentran en el arreglo apiTeams
 
-    // 3. Extraer la propiedad "teams" de los datos de la API
-    const apiTeamNames = apiTeams.map((team) => team.teams);
+      // 3. Extraer la propiedad "teams" de los datos de la API
+      apiTeams.forEach((element) => {
+        if (element.teams != undefined) {
+          const results = element.teams.split(",");
+          results.forEach((t) => {
+            arrayTeams.push(t.trim());
+          });
+        }
+      });
 
-    // 4. Combinar los equipos de la base de datos y la propiedad "teams" de la API
-    const allTeams = [...databaseTeams, ...apiTeamNames];
+      const arrayFinal = arrayTeams.filter((items, index) => {
+        return arrayTeams.indexOf(items) === index;
+      });
 
-    // 5. Dividir los nombres de los equipos en una sola cadena, incluyendo comas sin espacios
-    const allTeamsString = allTeams.join(',');
+      arrayFinal.forEach(async (element) => {
+        await Team.create({
+          name: element,
+        });
+      });
 
-    // 6. Dividir la cadena en un arreglo de nombres de equipos
-    const allTeamParts = allTeamsString.split(',')
-      .map((team) => team.trim())
-      .filter((team) => team !== null && team !== "");
-
-    // 7. Ordenar los nombres de equipos alfabéticamente
-    allTeamParts.sort();
-
-    // 8. Eliminar duplicados después de la ordenación
-    const uniqueTeams = [...new Set(allTeamParts)];
-
-    // 9. Enviar la respuesta al cliente
-    res.json(uniqueTeams);
+    } else {
+      console.log("La base de datos esta llena");
+    }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Hubo un error al obtener los equipos.' });
+    res.status(500).json({ error: "Hubo un error al obtener los equipos." });
   }
 };
 
-module.exports = { getTeams };
+const getTeams = async (req, res) => {
+  const teams = await Team.findAll();
+  res.status(200).json(teams);
+};
 
+module.exports = { getTeams, addTeams };

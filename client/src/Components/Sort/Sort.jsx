@@ -9,9 +9,9 @@ function Sort({ sortOrder, toggleSortOrder, filteredData }) {
         const sortedList = [...filteredData];
         sortedList.sort((a, b) => {
             if (newSortOrder === 'asc') {
-                return a.forename.localeCompare(b.forename);
+                return a.name.forename.localeCompare(b.name.forename);
             } else {
-                return b.forename.localeCompare(a.forename);
+                return b.name.forename.localeCompare(a.name.forename);
             }
         });
         updateSortedList(sortedList);
