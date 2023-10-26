@@ -68,29 +68,23 @@ export default function rootReducer(state = initialState, { type, payload }) {
         allTeams: payload,
       };
 
-    case FILTER_BY_TEAM: {
-      const filterTeam = payload;
-      let filteredTeamData;
-
-      if (filterTeam === "all") {
+      case FILTER_BY_TEAM: {
+        const selectedTeam = payload; // Cambiado de action.payload a payload
+        // Filtrar drivers basados en el equipo seleccionado
+        let filteredDrivers = state.allDrivers; // Cambiado de state.drivers a state.allDrivers
+        if (selectedTeam !== 'all') {
+          filteredDrivers = state.allDrivers.filter((driver) =>
+            driver.teams && driver.teams.includes(selectedTeam) // Comprobar si driver.teams existe
+          );
+        }
+      
         return {
           ...state,
-          currentPage: 1,
-          filteredData: state.allDrivers,
+          filterByTeam: selectedTeam,
+          filteredData: filteredDrivers, // Actualiza los drivers filtrados
         };
       }
-
-      filteredTeamData = state.allDrivers.filter(
-        (driver) => driver.team && driver.team.includes(filterTeam)
-      );
-
-      return {
-        ...state,
-        currentPage: 1,
-        filteredData: filteredTeamData,
-        sortOrder: "asc",
-      };
-    }
+      
 
     case FILTER_BY_ORIGIN: // reducer para filtrar por origen
       const filterOrigin = payload;

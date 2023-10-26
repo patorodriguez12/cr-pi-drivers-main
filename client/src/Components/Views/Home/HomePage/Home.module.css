@@ -1,0 +1,10 @@
+* {
+    margin: 0;
+}
+
+
+.homeContainer {
+    background-image: url('../../../../../public/assets/backgroundImage.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}

@@ -1,9 +1,0 @@
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Cambia a 3 columnas en lugar de 4 */
-    gap: 20px; /* Agrega espacio entre las tarjetas */
-    justify-content: space-around;
-    justify-items: center;
-    padding: 2px 40px;
-    margin-top: 20px;
-}
