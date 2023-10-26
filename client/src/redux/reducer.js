@@ -116,9 +116,9 @@ export default function rootReducer(state = initialState, { type, payload }) {
       const sortedList = [...state.filteredData];
       sortedList.sort((a, b) => {
         if (newSortOrder === "asc") {
-          return a.name.forename.localeCompare(b.name.forename);
+          return a.forename.localeCompare(b.forename);
         } else {
-          return b.name.forename.localeCompare(a.name.forename);
+          return b.forename.localeCompare(a.forename);
         }
       });
 

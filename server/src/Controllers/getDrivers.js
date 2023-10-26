@@ -17,21 +17,21 @@ const cleanArrApi = (arr) =>
     };
   });
 
-const cleanArrDB = (arr) =>
+  const cleanArrDB = (arr) =>
   arr.map((elem) => {
-    const teamNames = elem.teams.map((team) => team.name).join(", "); // Unir nombres de equipos con comas
-    return {
-      id: elem.id,
-      forename: elem.forename,
-      surname: elem.surname,
-      dob: elem.dob,
-      image: elem.image,
-      teams: teamNames, // Convertir la lista de equipos en una cadena de texto
-      nationality: elem.nationality,
-      description: elem.description,
-      created: true,
-    };
-  });
+      const teamNames = elem.teams.map(team => team.name).join(', '); // Unir nombres de equipos con comas
+      return {
+          id: elem.id,
+          forename: elem.forename,
+          surname: elem.surname,
+          dob: elem.dob,
+          image: elem.image,
+          teams: teamNames, // Convertir la lista de equipos en una cadena de texto
+          nationality: elem.nationality,
+          description: elem.description,
+          created: true,
+      }
+  })
 
 const searchDrivers = async (req, res) => {
   const dbDataRaw = await Driver.findAll({
@@ -54,16 +54,20 @@ const searchDriverByName = async (name) => {
         [Op.iLike]: `%${lowerCaseName}%`, // Usar Op.iLike para consultas insensibles a mayúsculas/minúsculas
       },
     },
+    include: Team, // Incluir la relación con los equipos
   });
 
-  const apiDrivers = (await axios.get("http://localhost:5000/drivers")).data;
+  const apiDataRaw = (await axios.get("http://localhost:5000/drivers")).data;
+  const apiDrivers = cleanArrApi(apiDataRaw);
 
   // Filtrar insensiblemente a mayúsculas/minúsculas
-  const filteredDrivers = apiDrivers.filter(
-    (driver) => driver.name.forename.toLowerCase() === lowerCaseName
+  const filteredApiDrivers = apiDrivers.filter(
+    (driver) => driver.forename.toLowerCase() === lowerCaseName
   );
 
-  return [...filteredDrivers, ...dbDrivers];
+  const combinedData = [...filteredApiDrivers, ...cleanArrDB(dbDrivers)];
+
+  return combinedData;
 };
 
 const getDrivers = async (req, res) => {
