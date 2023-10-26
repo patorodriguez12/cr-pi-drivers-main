@@ -37,13 +37,13 @@ const validate = (formData) => {
         errors.nationality = "Nationality is required";
     }
 
-    if (!regNumber.test(formData.dob)) {
-        errors.dob = "Date of birth is not valid";
-    }
+    // if (!regNumber.test(formData.dob)) {
+    //     errors.dob = "Date of birth is not valid";
+    // }
 
-    if (!formData.dob) {
-        errors.dob = "Date of birth is required";
-    }
+    // if (!formData.dob) {
+    //     errors.dob = "Date of birth is required";
+    // }
 
     if (!formData.teams || formData.teams.length === 0) {
         errors.teams = "At least one team must be selected";

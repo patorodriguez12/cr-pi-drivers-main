@@ -7,8 +7,14 @@ import SearchBar from '../SearchBar/SearchBar';
 import Sort from '../Sort/Sort';
 import Teams from '../Teams/Teams';
 import Origin from '../Origin/Origin';
+import { allTeams } from '../../redux/actions';
 
 export default function Nav() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(allTeams());
+    }, [dispatch])
+
     return (
         <div className={style.nav}>
             <Link to={`/`} >

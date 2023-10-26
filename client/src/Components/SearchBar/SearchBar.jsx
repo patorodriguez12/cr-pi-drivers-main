@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { cleanFilter, onSearchName, onSearchId, setPage } from '../../redux/actions';
+import { cleanFilter, onSearchName, setPage } from '../../redux/actions';
 
-function SearchBar({ cleanFilter, onSearchName, onSearchId, setPage, isLoading, currentPage }) {
+function SearchBar({ cleanFilter, onSearchName, setPage, isLoading, currentPage }) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
-    // Si la búsqueda no está vacía, determina si es un número (id) o una cadena (name)
+    // Si la búsqueda no está vacía, busca por nombre
     if (searchTerm) {
-      const searchValue = isNaN(searchTerm) ? searchTerm : parseInt(searchTerm, 10);
-
-      if (isNaN(searchValue)) {
-        // Búsqueda por name
-        onSearchName(searchTerm);
-      } else {
-        // Búsqueda por id
-        onSearchId(searchValue);
-      }
+      onSearchName(searchTerm);
 
       // Reinicia la página a la primera página
       setPage(1);
@@ -33,7 +25,7 @@ function SearchBar({ cleanFilter, onSearchName, onSearchId, setPage, isLoading, 
     <div>
       <input
         type="text"
-        placeholder="Buscar por ID o Nombre"
+        placeholder="Buscar por Nombre"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
@@ -51,7 +43,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   cleanFilter,
   onSearchName,
-  onSearchId,
   setPage,
 };
 

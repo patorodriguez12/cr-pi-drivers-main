@@ -25,9 +25,6 @@ const initialState = {
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
-  console.log("Reducer called with action type:", type);
-  console.log("Current state:", state);
-
   switch (type) {
     case GET_DRIVERS: // reducer para actualizar todos los drivers
       return {
@@ -56,31 +53,35 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: payload,
       };
-    case GET_TEAMS: // reducer para actualizar los equipos
+    case GET_TEAMS:
       return {
         ...state,
         allTeams: payload,
       };
-    case FILTER_BY_TEAM: // reducer para filtrar por equipo
-    const teamName = payload; // Supongo que payload es el nombre del equipo seleccionado
-    let filteredDriversDataTeam;
-  
-    if (teamName === '') {
-      // Si no se ha seleccionado un equipo, muestra todos los controladores
-      filteredDriversDataTeam = state.allDrivers;
-    } else {
-      // Filtra los controladores por el nombre del equipo seleccionado
-      filteredDriversDataTeam = state.allDrivers.filter((driver) =>
-        driver.teams.includes(teamName)
-      );
-    }
-  
-    return {
-      ...state,
-      currentPage: 1,
-      filteredData: filteredDriversDataTeam,
-      sortOrder: "asc",
+
+    case FILTER_BY_TEAM: {
+      const filterTeam = payload;
+      let filteredTeamData;
+
+      if (filterTeam === 'all') {
+        return {
+          ...state,
+          currentPage: 1,
+          filteredData: state.allDrivers,
+        };
+      }
+
+      filteredTeamData = state.allDrivers.filter((driver) =>
+      driver.team && driver.team.includes(filterTeam));
+
+      return {
+        ...state,
+        currentPage: 1,
+        filteredData: filteredTeamData,
+        sortOrder: "asc"
+      };
     };
+
     case FILTER_BY_ORIGIN: // reducer para filtrar por origen
       const filterOrigin = payload;
       let filteredDriversDataOrigin; // Cambio de nombre de la variable

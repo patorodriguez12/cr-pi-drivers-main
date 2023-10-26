@@ -42,8 +42,7 @@ const addTeams = async () => {
 
 const getTeams = async (req, res) => {
   const teams = await Team.findAll();
-  const teamNames = teams.map((team) => team.name); // Extraer nombres de equipos
-  res.status(200).json(teamNames);
+  res.status(200).json(teams);
 };
 
 module.exports = { getTeams, addTeams };
