@@ -41,9 +41,9 @@ const validate = (formData) => {
     //     errors.dob = "Date of birth is not valid";
     // }
 
-    // if (!formData.dob) {
-    //     errors.dob = "Date of birth is required";
-    // }
+    if (!formData.dob) {
+        errors.dob = "Date of birth is required";
+    }
 
     if (!formData.teams || formData.teams.length === 0) {
         errors.teams = "At least one team must be selected";

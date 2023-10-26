@@ -13,6 +13,8 @@ import {
   UPDATE_ORDER,
   CLEAN_FILTER,
   SET_CLEAN,
+  UPDATE_SORTED_LIST_BY_DATE,
+  TOGGLE_SORT_ORDER_BY_DATE,
 } from "./actionType";
 
 const URL = "http://localhost:3001";
@@ -181,3 +183,20 @@ export function cleanFilter() {
     }
   };
 }
+
+// Acción para alternar el orden de fecha de nacimiento (ascendente o descendente)
+export const toggleSortOrderByDate = () => ({
+  type: TOGGLE_SORT_ORDER_BY_DATE,
+});
+
+// Acción para actualizar la lista ordenada por fecha de nacimiento
+export const updateSortedListByDate = (sortedList) => ({
+  type: UPDATE_SORTED_LIST_BY_DATE,
+  payload: sortedList,
+});
+
+// Función para convertir la fecha de nacimiento en un objeto Date
+const parseDate = (dob) => {
+  const [year, month, day] = dob.split('-');
+  return new Date(year, month - 1, day); // El mes se resta en 1, ya que en JavaScript los meses van de 0 a 11
+};

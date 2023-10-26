@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import style from './Nav.module.css';
 import SearchBar from '../SearchBar/SearchBar';
 import Sort from '../Sort/Sort';
+import SortByDate from '../Sort/SortByDate';
 import Teams from '../Teams/Teams';
 import Origin from '../Origin/Origin';
 import { allTeams } from '../../redux/actions';
@@ -24,6 +25,7 @@ export default function Nav() {
                 <button>Create</button>
             </Link>
             <Sort />
+            <SortByDate />
             <Teams />
             <Origin />
             <SearchBar />

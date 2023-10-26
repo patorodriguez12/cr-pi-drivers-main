@@ -16,7 +16,7 @@ export default function Form() {
     nationality: "",
     dob: "",
     description: "",
-    teams: [],
+    teams: [], // Inicializar como un arreglo vacío
   });
 
   const [errors, setErrors] = useState({});
@@ -82,7 +82,7 @@ export default function Form() {
         nationality: formData.nationality,
         dob: formData.dob,
         description: formData.description,
-        teams: formData.teams,
+        teams: formData.teams, // El arreglo de strings
       };
       console.log(payload);
       dispatch(createNewDriver(payload));
@@ -154,14 +154,14 @@ export default function Form() {
           <span>{errors?.nationality && errors.nationality}</span>
           <br />
           <label>
-            Date of birth:{" "}
+            Date of birth:
             <input
-              type="text"
+              type="date" // Utiliza el tipo "date" en lugar de "text"
               key="dob"
               name="dob"
               value={formData.dob}
               onChange={handleChange}
-            />{" "}
+            />
           </label>
           <span>{errors?.dob && errors.dob}</span>
           <br />
@@ -183,32 +183,27 @@ export default function Form() {
               <select
                 id="teamsDropdown"
                 multiple
-                value={formData.teams.name}
+                value={formData.teams}
                 onChange={handleTeamChange}
               >
                 {teams.map((team) => (
-                  <option key={team.id} value={team.id}>
-                    {team.name}
+                  <option key={team} value={team}>
+                    {team}
                   </option>
                 ))}
               </select>
               <div className={styles["selected-values"]}>
-                {formData.teams.map((selectedId) => {
-                  const selectedTeam = teams.find(
-                    (team) => team.id === selectedId
-                  );
-                  return (
-                    <div key={selectedId} className={styles["selected-Team"]}>
-                      {selectedTeam.name}{" "}
-                      <button
-                        type="button"
-                        onClick={() => handleTeamRemove(selectedId)}
-                      >
-                        ✖
-                      </button>
-                    </div>
-                  );
-                })}
+                {formData.teams.map((selectedTeam) => (
+                  <div key={selectedTeam} className={styles["selected-Team"]}>
+                    {selectedTeam}{" "}
+                    <button
+                      type="button"
+                      onClick={() => handleTeamRemove(selectedTeam)}
+                    >
+                      ✖
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
             <span>{errors?.teams && errors.teams}</span>

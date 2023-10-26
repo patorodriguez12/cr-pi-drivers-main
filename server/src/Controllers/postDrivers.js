@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const postDrivers = async (req, res) => {
   try {
     const { forename, surname, nationality, dob, teams, image, description } = req.body;
+    
     const driverCreate = await Driver.create({
       forename,
       surname,

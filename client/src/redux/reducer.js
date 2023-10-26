@@ -11,6 +11,8 @@ import {
   UPDATE_ORDER,
   CLEAN_FILTER,
   SET_CLEAN,
+  TOGGLE_SORT_ORDER_BY_DATE,
+  UPDATE_SORTED_LIST_BY_DATE,
 } from "./actionType";
 
 const initialState = {
@@ -22,6 +24,13 @@ const initialState = {
   isLoading: false,
   isClean: false,
   sortOrder: "asc",
+  sortOrderByDate: "asc",
+};
+
+// Función para convertir la fecha de nacimiento en un objeto Date
+const parseDate = (dob) => {
+  const [year, month, day] = dob.split('-');
+  return new Date(year, month - 1, day); // El mes se resta en 1, ya que en JavaScript los meses van de 0 a 11
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -63,7 +72,7 @@ export default function rootReducer(state = initialState, { type, payload }) {
       const filterTeam = payload;
       let filteredTeamData;
 
-      if (filterTeam === 'all') {
+      if (filterTeam === "all") {
         return {
           ...state,
           currentPage: 1,
@@ -71,16 +80,17 @@ export default function rootReducer(state = initialState, { type, payload }) {
         };
       }
 
-      filteredTeamData = state.allDrivers.filter((driver) =>
-      driver.team && driver.team.includes(filterTeam));
+      filteredTeamData = state.allDrivers.filter(
+        (driver) => driver.team && driver.team.includes(filterTeam)
+      );
 
       return {
         ...state,
         currentPage: 1,
         filteredData: filteredTeamData,
-        sortOrder: "asc"
+        sortOrder: "asc",
       };
-    };
+    }
 
     case FILTER_BY_ORIGIN: // reducer para filtrar por origen
       const filterOrigin = payload;
@@ -144,6 +154,27 @@ export default function rootReducer(state = initialState, { type, payload }) {
         filteredData: state.allDrivers,
         sortOrder: "asc",
       };
+      case TOGGLE_SORT_ORDER_BY_DATE:
+        const sortedListByDate = [...state.filteredData];
+        sortedListByDate.sort((a, b) => {
+            const dateA = parseDate(a.dob);
+            const dateB = parseDate(b.dob);
+            if (state.sortOrderByDate === 'asc') {
+                return dateA - dateB;
+            } else {
+                return dateB - dateA;
+            }
+        });
+        return {
+            ...state,
+            sortOrderByDate: state.sortOrderByDate === 'asc' ? 'desc' : 'asc',
+            filteredData: sortedListByDate,
+        };
+    case UPDATE_SORTED_LIST_BY_DATE:
+        return {
+            ...state,
+            filteredData: payload,
+        };
     default:
       return state;
   }

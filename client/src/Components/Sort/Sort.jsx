@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { toggleSortOrder, updateSortedList } from '../../redux/actions';
 
 function Sort({ sortOrder, toggleSortOrder, filteredData }) {
-    const handleToggleSort = () => {
-        const newSortOrder = sortOrder === 'asc' ? 'desc': 'asc';
+    const handleToggleSort = (newSortOrder) => {
         toggleSortOrder();
         const sortedList = [...filteredData];
         sortedList.sort((a, b) => {
@@ -19,8 +18,11 @@ function Sort({ sortOrder, toggleSortOrder, filteredData }) {
 
     return (
         <div>
-            <label>Ascending <input type="checkbox" checked={sortOrder === 'asc'} onChange={handleToggleSort} />
-            </label>
+            <label>Sort order:</label>
+            <select value={sortOrder} onChange={(e) => handleToggleSort(e.target.value)}>
+                <option value="asc">A-Z</option>
+                <option value="desc">Z-A</option>
+            </select>
         </div>
     )
 }
