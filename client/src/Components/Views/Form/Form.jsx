@@ -9,6 +9,8 @@ import { createNewDriver } from "../../../redux/actions";
 export default function Form() {
   const teams = useSelector((state) => state.allTeams);
   const dispatch = useDispatch();
+
+  // Estado del formulario
   const [formData, setFormData] = useState({
     image: "",
     forename: "",
@@ -16,11 +18,13 @@ export default function Form() {
     nationality: "",
     dob: "",
     description: "",
-    teams: [], // Inicializar como un arreglo vacío
+    teams: [],
   });
 
+  // Estado de errores
   const [errors, setErrors] = useState({});
 
+  // Estado que verifica si se esta modificando el formulario
   const [formTouched, setFormTouched] = useState(false);
 
   useEffect(() => {
@@ -29,6 +33,7 @@ export default function Form() {
     }
   }, [formData, formTouched]);
 
+  // Handlers que actualizan el estado del formulario
   const handleChange = (event) => {
     const { name, value } = event.target;
     const validationErrors = validate({ ...formData, [name]: value });
@@ -82,9 +87,8 @@ export default function Form() {
         nationality: formData.nationality,
         dob: formData.dob,
         description: formData.description,
-        teams: formData.teams, // El arreglo de strings
+        teams: formData.teams,
       };
-      console.log(payload);
       dispatch(createNewDriver(payload));
       setFormTouched(false);
     } else {
@@ -112,7 +116,6 @@ export default function Form() {
               name="image"
               value={formData.image}
               onChange={handleChange}
-              onBlur={handleChange}
               className={styles.input}
             />
           </label>
@@ -129,7 +132,9 @@ export default function Form() {
               className={styles.input}
             />{" "}
           </label>
-          <span className={styles.error}>{errors?.forename && errors.forename}</span>
+          <span className={styles.error}>
+            {errors?.forename && errors.forename}
+          </span>
           <br />
           <label>
             Surname:{" "}
@@ -142,7 +147,9 @@ export default function Form() {
               className={styles.input}
             />{" "}
           </label>
-          <span className={styles.error}>{errors?.surname && errors.surname}</span>
+          <span className={styles.error}>
+            {errors?.surname && errors.surname}
+          </span>
           <br />
           <label>
             Nationality:{" "}
@@ -155,12 +162,14 @@ export default function Form() {
               className={styles.input}
             />{" "}
           </label>
-          <span className={styles.error}>{errors?.nationality && errors.nationality}</span>
+          <span className={styles.error}>
+            {errors?.nationality && errors.nationality}
+          </span>
           <br />
           <label>
             Date of birth:
             <input
-              type="date" // Utiliza el tipo "date" en lugar de "text"
+              type="date"
               key="dob"
               name="dob"
               value={formData.dob}
@@ -181,7 +190,9 @@ export default function Form() {
               className={styles.input}
             />{" "}
           </label>
-          <span className={styles.error}>{errors?.description && errors.description}</span>
+          <span className={styles.error}>
+            {errors?.description && errors.description}
+          </span>
           <br />
           <label>
             Teams:
@@ -212,14 +223,15 @@ export default function Form() {
                 ))}
               </div>
             </div>
-            <span className={styles.error}>{errors?.teams && errors.teams}</span>
+            <span className={styles.error}>
+              {errors?.teams && errors.teams}
+            </span>
           </label>
           <br />
-          {!isSubmitDisabled ? (
-            <button type="submit">Send</button>
-          ) : (
-            <span>Form is empty or contains errors</span>
-          )}
+          <button type="submit" disabled={isSubmitDisabled}>
+            Submit
+          </button>
+          {isSubmitDisabled && <span>Form is empty or contains errors</span>}
         </form>
       </div>
     </div>

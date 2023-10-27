@@ -1,14 +1,6 @@
-/* Form.module.css */
-
-.formContainer {
-    background-image: url('../../../../public/assets/backgroundImage.jpg');
-    background-size: cover;
-    height: 100vh;
-}
-
 .bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     background: rgba(69, 54, 92, 0.4); /* Fondo transparente */
     padding: 20px;
@@ -41,16 +33,19 @@
     width: 300px;
     display: flex;
     flex-direction: column;
+    color: white;
 }
 
 .input {
     background: transparent;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px;
     margin: 10px 0;
     outline: none;
     color: #fff;
+    display: flex;
+    flex-direction: column;
 }
 
 .error {

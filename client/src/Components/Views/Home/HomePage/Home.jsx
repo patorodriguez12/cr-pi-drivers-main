@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { allDrivers } from '../../../../redux/actions';
+import { allDrivers, allTeams } from '../../../../redux/actions';
 import Cards from '../CardsContainer/Cards';
 import Nav from '../Nav/Nav';
 import Paginator from '../Paginator/Paginator';
@@ -15,6 +15,10 @@ export default function Home() {
     // Escucha los cambios y los despacha
     useEffect(() => {
         dispatch(allDrivers());
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(allTeams());
     }, [dispatch])
 
     return (

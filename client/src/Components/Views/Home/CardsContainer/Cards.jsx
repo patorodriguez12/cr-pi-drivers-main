@@ -6,7 +6,7 @@ import SortByAz from "../Sort/SortByAZ";
 import SortByDate from "../Sort/SortByDate";
 import SortByTeam from "../Sort/SortByTeam";
 import SortByOrigin from "../Sort/SortByOrigin";
-import { cleanFilter } from '../../../../redux/actions';
+import { cleanFilter, setTotalPage, setPage } from '../../../../redux/actions';
 
 function Cards({ currentPage, driversPerPage, drivers, cleanFilter }) {
   const startIndex = (currentPage - 1) * driversPerPage;
@@ -47,6 +47,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   cleanFilter,
+  setPage,
+  setTotalPage,
 }
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cards);

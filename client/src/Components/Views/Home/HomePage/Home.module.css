@@ -2,9 +2,15 @@
     margin: 0;
 }
 
+body {
+    background-image: url('assets/backgroundImage.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 
 .homeContainer {
-    background-image: url('../../../../../public/assets/backgroundImage.jpg');
+    background-image: url('assets/backgroundImage.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }

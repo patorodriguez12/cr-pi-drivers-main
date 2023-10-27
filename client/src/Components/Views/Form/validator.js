@@ -1,6 +1,5 @@
 const regImage = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*\.(jpg|jpeg|png|gif)$/i;
 const regName = /^[a-zA-Z\s]+$/;
-const regNumber = /^(?:[1-9][0-9]?|100)$/;
 
 const validate = (formData) => {
     const errors = {};
@@ -36,10 +35,6 @@ const validate = (formData) => {
     if (!formData.nationality) {
         errors.nationality = "Nationality is required";
     }
-
-    // if (!regNumber.test(formData.dob)) {
-    //     errors.dob = "Date of birth is not valid";
-    // }
 
     if (!formData.dob) {
         errors.dob = "Date of birth is required";

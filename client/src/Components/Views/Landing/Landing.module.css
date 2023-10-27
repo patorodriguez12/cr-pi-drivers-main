@@ -1,6 +1,6 @@
 /* Landing.module.css */
 .landingContainer {
-    background-image: url('../../../../public/assets/backgroundImage.jpg');
+    background-image: url('assets/backgroundImage.jpg');
     background-size: cover;
     height: 100vh;
     display: flex;

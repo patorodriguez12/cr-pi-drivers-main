@@ -4,7 +4,6 @@ import {
   SEARCH_DRIVERS,
   SET_TOTAL_PAGE,
   SET_PAGE,
-  SET_LOADING,
   FILTER_BY_TEAM,
   FILTER_BY_ORIGIN,
   SORT_ORDER,
@@ -21,7 +20,6 @@ const initialState = {
   filteredData: [],
   currentPage: 1,
   totalPages: 1,
-  isLoading: false,
   isClean: false,
   sortOrder: "asc",
   sortOrderByDate: "asc",
@@ -57,11 +55,6 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         filteredData: payload,
       };
-    case SET_LOADING: // reducer para actualizar el estado de carga
-      return {
-        ...state,
-        isLoading: payload,
-      };
     case GET_TEAMS:
       return {
         ...state,
@@ -81,7 +74,7 @@ export default function rootReducer(state = initialState, { type, payload }) {
         return {
           ...state,
           filterByTeam: selectedTeam,
-          filteredData: filteredDrivers, // Actualiza los drivers filtrados
+          filteredData: filteredDrivers
         };
       }
       
@@ -116,6 +109,7 @@ export default function rootReducer(state = initialState, { type, payload }) {
         filteredData: filteredDriversDataOrigin,
         sortOrder: "asc",
       };
+      
     case SORT_ORDER:
       const newSortOrder = state.sortOrder === "asc" ? "desc" : "asc";
       const sortedList = [...state.filteredData];
