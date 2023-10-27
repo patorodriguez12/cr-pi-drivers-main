@@ -197,6 +197,6 @@ export const updateSortedListByDate = (sortedList) => ({
 
 // Función para convertir la fecha de nacimiento en un objeto Date
 const parseDate = (dob) => {
-  const [year, month, day] = dob.split('-');
-  return new Date(year, month - 1, day); // El mes se resta en 1, ya que en JavaScript los meses van de 0 a 11
+    const [year, month, day] = dob.split('-');
+    return new Date(year, month - 1, day); // El mes se resta en 1, ya que en JavaScript los meses van de 0 a 11
 };

@@ -1,15 +1,14 @@
-import styles from './Detail.module.css'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import styles from './Detail.module.css';
 
 export default function Detail() {
     const { id } = useParams();
     const [driver, setDriver] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    console.log(driver)
 
     useEffect(() => {
         const getDriver = async (id) => {
@@ -44,7 +43,7 @@ export default function Detail() {
         <div className={styles.detail}>
             <div className={styles.titleDetail}>
                 <h1 className={styles.title}>Driver detail</h1>
-                <Link to={`/home`}>
+                <Link to={`/home`} className={styles.backLink}>
                     <button className={styles.back}>✖</button>
                 </Link>
             </div>
@@ -65,4 +64,4 @@ export default function Detail() {
             </div>
         </div>
     );
-};
+}

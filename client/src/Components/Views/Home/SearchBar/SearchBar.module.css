@@ -1,26 +1,33 @@
 .searchBar {
-    display: flex;
-    align-items: center;
-  }
-  
-  .input {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.7); /* Fondo transparente */
-  }
-  
-  .button {
-    background: #e10600;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    margin-left: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-  }
-  
-  .button:hover {
-    background: #ff471a;
-    color: white;
-  }  
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.7); /* Fondo transparente */
+}
+
+.button {
+
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: white;
+}
+
+/* SearchBar.module.css */
+.searchIcon {
+  display: inline-block;
+  width: 30px; /* Ajusta el ancho según el tamaño de tu imagen PNG */
+  height: 30px; /* Ajusta la altura según el tamaño de tu imagen PNG */
+  background-image: url("../../../../../public//assets/searchIcon.png"); /* Ruta a tu imagen PNG */
+  background-size: cover;
+  background-repeat: no-repeat;
+}

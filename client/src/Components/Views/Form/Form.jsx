@@ -95,7 +95,7 @@ export default function Form() {
   const isSubmitDisabled = Object.keys(errors).length > 0 || !formTouched;
 
   return (
-    <div>
+    <div className={styles.formContainer}>
       <div className={styles.bar}>
         <h1 className={styles.title}>Create a new driver</h1>
         <Link to={`/home`}>
@@ -113,6 +113,7 @@ export default function Form() {
               value={formData.image}
               onChange={handleChange}
               onBlur={handleChange}
+              className={styles.input}
             />
           </label>
           {errors.image && <span className={styles.error}>{errors.image}</span>}
@@ -125,9 +126,10 @@ export default function Form() {
               name="forename"
               value={formData.forename}
               onChange={handleChange}
+              className={styles.input}
             />{" "}
           </label>
-          <span>{errors?.forename && errors.forename}</span>
+          <span className={styles.error}>{errors?.forename && errors.forename}</span>
           <br />
           <label>
             Surname:{" "}
@@ -137,9 +139,10 @@ export default function Form() {
               name="surname"
               value={formData.surname}
               onChange={handleChange}
+              className={styles.input}
             />{" "}
           </label>
-          <span>{errors?.surname && errors.surname}</span>
+          <span className={styles.error}>{errors?.surname && errors.surname}</span>
           <br />
           <label>
             Nationality:{" "}
@@ -149,9 +152,10 @@ export default function Form() {
               name="nationality"
               value={formData.nationality}
               onChange={handleChange}
+              className={styles.input}
             />{" "}
           </label>
-          <span>{errors?.nationality && errors.nationality}</span>
+          <span className={styles.error}>{errors?.nationality && errors.nationality}</span>
           <br />
           <label>
             Date of birth:
@@ -161,9 +165,10 @@ export default function Form() {
               name="dob"
               value={formData.dob}
               onChange={handleChange}
+              className={styles.input}
             />
           </label>
-          <span>{errors?.dob && errors.dob}</span>
+          <span className={styles.error}>{errors?.dob && errors.dob}</span>
           <br />
           <label>
             Description:{" "}
@@ -173,9 +178,10 @@ export default function Form() {
               name="description"
               value={formData.description}
               onChange={handleChange}
+              className={styles.input}
             />{" "}
           </label>
-          <span>{errors?.description && errors.description}</span>
+          <span className={styles.error}>{errors?.description && errors.description}</span>
           <br />
           <label>
             Teams:
@@ -206,7 +212,7 @@ export default function Form() {
                 ))}
               </div>
             </div>
-            <span>{errors?.teams && errors.teams}</span>
+            <span className={styles.error}>{errors?.teams && errors.teams}</span>
           </label>
           <br />
           {!isSubmitDisabled ? (

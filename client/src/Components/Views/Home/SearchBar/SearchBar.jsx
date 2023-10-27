@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { cleanFilter, onSearchName, setPage } from '../../../../redux/actions';
-import style from './SearchBar.module.css'; // Agrega tu archivo CSS
+import { onSearchName, setPage, setTotalPage } from '../../../../redux/actions';
+import style from './SearchBar.module.css';
 
-function SearchBar({ cleanFilter, onSearchName, setPage, isLoading, currentPage }) {
+function SearchBar({ onSearchName, setPage, setTotalPage, currentPage }) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
     if (searchTerm) {
       onSearchName(searchTerm);
       setPage(1);
+  
+      // Calcula el nuevo total de páginas después de la búsqueda
+      setTotalPage();  // Esto debe reflejar los resultados filtrados
     }
-  };
-
-  const handleReset = () => {
-    cleanFilter();
-    setPage(1);
   };
 
   return (
@@ -25,23 +23,24 @@ function SearchBar({ cleanFilter, onSearchName, setPage, isLoading, currentPage 
         placeholder="Enter driver's name"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className={style.input} // Aplica estilos al input
+        className={style.input}
       />
-      <button onClick={handleSearch} className={style.button}>Search</button>
-      <button onClick={handleReset} className={style.button}>Clear</button>
+      <button onClick={handleSearch} className={style.button}>
+        <span className={style.searchIcon}></span>
+      </button>
     </div>
   );
 }
 
 const mapStateToProps = (state) => ({
-  isLoading: state.isLoading,
   currentPage: state.currentPage,
 });
 
 const mapDispatchToProps = {
-  cleanFilter,
   onSearchName,
   setPage,
+  setTotalPage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+

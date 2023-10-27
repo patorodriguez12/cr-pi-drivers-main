@@ -19,7 +19,7 @@ export default function Nav() {
             </Link>
             <SearchBar />
             <Link to={`/create`}>
-                <button>Create</button>
+                <button>Create new driver</button>
             </Link>
         </div>
     )

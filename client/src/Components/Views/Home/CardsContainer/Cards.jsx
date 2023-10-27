@@ -6,20 +6,30 @@ import SortByAz from "../Sort/SortByAZ";
 import SortByDate from "../Sort/SortByDate";
 import SortByTeam from "../Sort/SortByTeam";
 import SortByOrigin from "../Sort/SortByOrigin";
+import { cleanFilter } from '../../../../redux/actions';
 
-function Cards({ currentPage, driversPerPage, drivers }) {
-  // Resto del código para la paginación y renderizado de las tarjetas
+function Cards({ currentPage, driversPerPage, drivers, cleanFilter }) {
   const startIndex = (currentPage - 1) * driversPerPage;
   const endIndex = startIndex + driversPerPage;
   const driversToShow = drivers.slice(startIndex, endIndex);
+  const handleReset = () => {
+    cleanFilter();
+    setPage(1);
+  
+    // Calcula el nuevo total de páginas después de la limpieza
+    setTotalPage();  // Esto debe reflejar los resultados filtrados
+  };
 
   return (
-    <div className={style.container}>
+    <div>
       <div className={style.filters}>
         <SortByAz className={style.filterAZ} />
         <SortByDate className={style.filterDate}/>
         <SortByTeam className={style.filterTeam} />
-        <SortByOrigin className={style.filterOrigin} />
+        <SortByOrigin className={style} />
+        <button onClick={handleReset} className={style.button}>
+        Clear filters
+      </button>
       </div>
       <div className={style.cards}>
         {driversToShow.map((driver) => (
@@ -35,4 +45,8 @@ const mapStateToProps = (state) => ({
   driversPerPage: 9,
 });
 
-export default connect(mapStateToProps)(Cards);
+const mapDispatchToProps = {
+  cleanFilter,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cards);

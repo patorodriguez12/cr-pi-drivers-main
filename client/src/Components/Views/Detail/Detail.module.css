@@ -1,0 +1,91 @@
+/* Detail.module.css */
+.detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-image: url('../../../../public/assets/backgroundImage.jpg');
+    background-size: cover;
+    height: 100vh;
+    justify-content: center;
+}
+
+.titleDetail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: rgba(69, 54, 92, 0.4);
+    padding: 20px;
+    border-radius: 10px;
+    transition: 0.3s, background-color 0.3s;
+}
+
+.titleDetail:hover {
+    background-color: rgba(69, 54, 92, 0.8);
+}
+
+.title {
+    font-size: 24px;
+    color: #fff;
+}
+
+.backLink {
+    text-decoration: none;
+}
+
+.back {
+    font-size: 24px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.detailContent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Detail.module.css */
+.imageDetail {
+    flex: 1;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imageDriver {
+    max-width: 100%; /* Todas las imágenes se ajustarán al 100% del contenedor */
+    max-height: 300px; /* Establece una altura máxima para las imágenes */
+    object-fit: cover; /* Ajusta la imagen manteniendo su relación de aspecto y cubriendo todo el contenedor */
+    border-radius: 5px;
+    margin-right: -20px; /* Ajusta el margen derecho para acercar la imagen al recuadro */
+}
+
+.box {
+    flex: 2;
+    background-color: rgba(69, 54, 92, 0.4);
+    padding: 20px;
+    border-radius: 10px;
+    transition: 0.3s, background-color 0.3s;
+}
+
+.box:hover {
+    background-color: rgba(69, 54, 92, 0.8);
+}
+
+.titleDriver {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #fff;
+}

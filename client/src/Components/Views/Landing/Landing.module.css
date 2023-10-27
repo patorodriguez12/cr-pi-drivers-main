@@ -1,0 +1,49 @@
+/* Landing.module.css */
+.landingContainer {
+    background-image: url('../../../../public/assets/backgroundImage.jpg');
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    background-color: rgb(69, 54, 92, 0.4);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.3s, background-color 0.3s;
+}
+
+.overlay:hover {
+    background-color: rgb(69, 54, 92, 0.8);
+    scale: 1.05;
+}
+
+.title {
+    font-size: 36px;
+    color: #fff;
+}
+
+.subtitle {
+    font-size: 24px;
+    color: #fff;
+    margin-top: 20px;
+}
+
+.exploreButton {
+    background-color: #eca72c;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.exploreButton:hover {
+    background-color: #0056b3;
+}
