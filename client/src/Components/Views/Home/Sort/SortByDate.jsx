@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { toggleSortOrderByDate, updateSortedListByDate } from '../../../../redux/actions';
+import style from './Sorts.module.css';
 
 function SortByDate({ sortOrder, toggleSortOrderByDate, filteredData }) {
     const handleToggleSortByDate = (newSortOrder) => {
@@ -20,7 +21,7 @@ function SortByDate({ sortOrder, toggleSortOrderByDate, filteredData }) {
 
     return (
         <div>
-            <label>Sort by Date of Birth:</label>
+            <label className={style.text}>Sort by Date of Birth: </label>
             <select value={sortOrder} onChange={(e) => handleToggleSortByDate(e.target.value)}>
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>

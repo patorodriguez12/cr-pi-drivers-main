@@ -62,28 +62,34 @@ export default function rootReducer(state = initialState, { type, payload }) {
       };
 
       case FILTER_BY_TEAM: {
-        const selectedTeam = payload; // Cambiado de action.payload a payload
         // Filtrar drivers basados en el equipo seleccionado
-        let filteredDrivers = state.allDrivers; // Cambiado de state.drivers a state.allDrivers
-        if (selectedTeam !== 'all') {
-          filteredDrivers = state.allDrivers.filter((driver) =>
-            driver.teams && driver.teams.includes(selectedTeam) // Comprobar si driver.teams existe
+        let filteredDrivers = state.filteredData; // Cambiado de state.drivers a state.allDrivers
+        if (payload === 'all') {
+          return {
+            ...state,
+            currentPage: 1,
+            filteredData: state.allDrivers,
+          };
+        }
+
+        if (payload !== 'all') {
+          filteredDrivers = state.filteredData.filter((driver) =>
+            driver.teams && driver.teams.includes(payload) // Comprobar si driver.teams existe
           );
         }
       
         return {
           ...state,
-          filterByTeam: selectedTeam,
+          filterByTeam: payload,
           filteredData: filteredDrivers
         };
       }
       
 
     case FILTER_BY_ORIGIN: // reducer para filtrar por origen
-      const filterOrigin = payload;
       let filteredDriversDataOrigin; // Cambio de nombre de la variable
 
-      if (filterOrigin === "all") {
+      if (payload === "all") {
         return {
           ...state,
           currentPage: 1,
@@ -91,11 +97,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
         };
       }
 
-      if (filterOrigin === "api") {
+      if (payload === "api") {
         filteredDriversDataOrigin = state.allDrivers.filter(
           (driver) => !driver.created
         );
-      } else if (filterOrigin === "db") {
+      } else if (payload === "db") {
         filteredDriversDataOrigin = state.allDrivers.filter(
           (driver) => driver.created
         );

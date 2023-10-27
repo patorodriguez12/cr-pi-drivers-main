@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { onSearchName, setPage, setTotalPage } from '../../../../redux/actions';
 import style from './SearchBar.module.css';
 
-function SearchBar({ onSearchName, setPage, setTotalPage, currentPage }) {
+function SearchBar({ onSearchName }) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
@@ -38,8 +38,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   onSearchName,
-  setPage,
-  setTotalPage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

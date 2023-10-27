@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { toggleSortOrder, updateSortedList } from '../../../../redux/actions';
+import style from './Sorts.module.css';
 
 function SortByAz({ sortOrder, toggleSortOrder, filteredData }) {
     const handleToggleSort = (newSortOrder) => {
@@ -18,7 +19,7 @@ function SortByAz({ sortOrder, toggleSortOrder, filteredData }) {
 
     return (
         <div>
-            <label>Sort by alphabet:</label>
+            <label className={style.text}>Sort by forename: </label>
             <select value={sortOrder} onChange={(e) => handleToggleSort(e.target.value)}>
                 <option value="asc">A-Z</option>
                 <option value="desc">Z-A</option>

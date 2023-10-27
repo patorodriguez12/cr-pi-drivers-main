@@ -10,12 +10,12 @@ function Paginator({ currentPage, totalPages, setPage }) {
 
     return (
         <div className={style.paginator}>
-            <span>Page {currentPage} of {totalPages}</span>
             <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                Previous
-            </button>
+            «
+            </button>   
+            <span>Page {currentPage} of {totalPages}</span>
             <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-                Next
+            »
             </button>
         </div>
     );
@@ -29,5 +29,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     setPage,
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Paginator);
