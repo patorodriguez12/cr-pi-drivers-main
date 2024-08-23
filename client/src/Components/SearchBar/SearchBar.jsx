@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { onSearchName, setPage, setTotalPage } from '../../../../redux/actions';
-import style from './SearchBar.module.css';
+import { onSearchName, setPage, setTotalPage } from '../../redux/actions';
+import style from './SearchBar.css';
 
 function SearchBar({ onSearchName }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,16 +17,16 @@ function SearchBar({ onSearchName }) {
   };
 
   return (
-    <div className={style.searchBar}>
+    <div className="searchBar">
       <input
         type="text"
         placeholder="Enter driver's name"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className={style.input}
+        className="input"
       />
-      <button onClick={handleSearch} className={style.button}>
-        <span className={style.searchIcon}></span>
+      <button onClick={handleSearch} className="button">
+        <span className="searchIcon"></span>
       </button>
     </div>
   );

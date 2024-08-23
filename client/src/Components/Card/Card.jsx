@@ -1,12 +1,12 @@
-import style from "./Card.module.css";
 import { Link } from "react-router-dom";
 import React from "react";
+import style from "./Card.css";
 
-export default function Card({ driver }) {
+function Card({ driver }) {
   const { id, image, forename, surname, nationality } = driver;
   return (
-    <div className={style.card}>
-      <Link to={`/detail/${id}`} className={style.link}>
+    <div className="card">
+      <Link to={`/detail/${id}`} className="link">
         <img src={image} alt="F1 Driver" />
         <h1>
           {forename} {surname}
@@ -16,3 +16,5 @@ export default function Card({ driver }) {
     </div>
   );
 }
+
+export default Card;

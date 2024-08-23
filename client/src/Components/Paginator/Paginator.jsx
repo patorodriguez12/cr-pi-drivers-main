@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setPage } from '../../../../redux/actions';
-import style from './Paginator.module.css';
+import { setPage } from '../../redux/actions';
+import style from './Paginator.css';
 
 function Paginator({ currentPage, totalPages, setPage }) {
     const handlePageChange = (pageNumber) => {
@@ -9,7 +9,7 @@ function Paginator({ currentPage, totalPages, setPage }) {
     };
 
     return (
-        <div className={style.paginator}>
+        <div className="paginator">
             <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
             «
             </button>   

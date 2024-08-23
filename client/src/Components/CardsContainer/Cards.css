@@ -1,19 +1,13 @@
 .cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Cambia a 3 columnas en lugar de 4 */
-    gap: 40px; /* Agrega espacio entre las tarjetas */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px; /* Agrega espacio entre las tarjetas */
     justify-items: center;
-    padding: 20px;
-    margin-top: 20px;
+    padding: 15px;
     padding-left: 200px;
     padding-right: 200px;
 }
 
-.container {
-    margin: auto;
-    padding-bottom: 20px;
-    border-radius: 50px;
-}
 
 .filters {
     display: flex;

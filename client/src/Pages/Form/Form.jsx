@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styles from "./Form.module.css";
+import styles from "./Form.css";
 import validate from "./validator";
 import { createNewDriver } from "../../../redux/actions";
 
-export default function Form() {
+function Form() {
   const teams = useSelector((state) => state.allTeams);
   const dispatch = useDispatch();
 
@@ -99,15 +99,15 @@ export default function Form() {
   const isSubmitDisabled = Object.keys(errors).length > 0 || !formTouched;
 
   return (
-    <div className={styles.formContainer}>
-      <div className={styles.bar}>
-        <h1 className={styles.title}>Create a new driver</h1>
+    <div className="formContainer">
+      <div className="bar">
+        <h1 className="title">Create a new driver</h1>
         <Link to={`/home`}>
-          <button className={styles.back}>✖</button>
+          <button className="back">✖</button>
         </Link>
       </div>
-      <div className={styles.new}>
-        <form className={styles.form} onSubmit={handleSubmit}>
+      <div className="new">
+        <form className="form" onSubmit={handleSubmit}>
           {/* Dentro del formulario */}
           <label>
             Image (url):
@@ -116,10 +116,10 @@ export default function Form() {
               name="image"
               value={formData.image}
               onChange={handleChange}
-              className={styles.input}
+              className="input"
             />
           </label>
-          {errors.image && <span className={styles.error}>{errors.image}</span>}
+          {errors.image && <span className="error">{errors.image}</span>}
           <br />
           <label>
             Forename:{" "}
@@ -129,12 +129,10 @@ export default function Form() {
               name="forename"
               value={formData.forename}
               onChange={handleChange}
-              className={styles.input}
+              className="input"
             />{" "}
           </label>
-          <span className={styles.error}>
-            {errors?.forename && errors.forename}
-          </span>
+          <span className="error">{errors?.forename && errors.forename}</span>
           <br />
           <label>
             Surname:{" "}
@@ -144,12 +142,10 @@ export default function Form() {
               name="surname"
               value={formData.surname}
               onChange={handleChange}
-              className={styles.input}
+              className="input"
             />{" "}
           </label>
-          <span className={styles.error}>
-            {errors?.surname && errors.surname}
-          </span>
+          <span className="error">{errors?.surname && errors.surname}</span>
           <br />
           <label>
             Nationality:{" "}
@@ -159,10 +155,10 @@ export default function Form() {
               name="nationality"
               value={formData.nationality}
               onChange={handleChange}
-              className={styles.input}
+              className="input"
             />{" "}
           </label>
-          <span className={styles.error}>
+          <span className="error">
             {errors?.nationality && errors.nationality}
           </span>
           <br />
@@ -174,10 +170,10 @@ export default function Form() {
               name="dob"
               value={formData.dob}
               onChange={handleChange}
-              className={styles.input}
+              className="input"
             />
           </label>
-          <span className={styles.error}>{errors?.dob && errors.dob}</span>
+          <span className="error">{errors?.dob && errors.dob}</span>
           <br />
           <label>
             Description:{" "}
@@ -187,10 +183,10 @@ export default function Form() {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className={styles.input}
+              className="input"
             />{" "}
           </label>
-          <span className={styles.error}>
+          <span className="error">
             {errors?.description && errors.description}
           </span>
           <br />
@@ -209,9 +205,9 @@ export default function Form() {
                   </option>
                 ))}
               </select>
-              <div className={styles["selected-values"]}>
+              <div className="selected-values">
                 {formData.teams.map((selectedTeam) => (
-                  <div key={selectedTeam} className={styles["selected-Team"]}>
+                  <div key={selectedTeam} className="selected-Team">
                     {selectedTeam}{" "}
                     <button
                       type="button"
@@ -223,9 +219,7 @@ export default function Form() {
                 ))}
               </div>
             </div>
-            <span className={styles.error}>
-              {errors?.teams && errors.teams}
-            </span>
+            <span className="error">{errors?.teams && errors.teams}</span>
           </label>
           <br />
           <button type="submit" disabled={isSubmitDisabled}>
@@ -237,3 +231,5 @@ export default function Form() {
     </div>
   );
 }
+
+export default Form;
