@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./Form.css";
 import validate from "./validator";
-import { createNewDriver } from "../../../redux/actions";
+import { createNewDriver } from "../../redux/actions";
 
 function Form() {
   const teams = useSelector((state) => state.allTeams);
