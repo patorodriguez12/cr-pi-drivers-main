@@ -1,16 +1,9 @@
-const axios = require("axios");
-const server = require("./src/server"); // nos traemos el servidor
-const { sequelize } = require("./src/db.js");
-const PORT = 3001;
-const { addTeams } = require("./src/Controllers/getTeams");
-addTeams();
+const server = require("./src/server");
+const { conn } = require("./src/db");
+const PORT = process.env.PORT;
 
-// ponemos a escuchar el servidor en el puerto 3001
-sequelize
-  .sync({ alter: true })
-  .then(() => {
-    server.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`);
-    });
-  })
-  .catch((error) => console.error(error));
+server.listen(PORT, async () => {
+  await conn.sync({ force: false });
+  console.log(`Server is listening at ${PORT}`);
+  console.log("*** Drivers Project ***");
+});

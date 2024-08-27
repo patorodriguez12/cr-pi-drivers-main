@@ -1,14 +1,10 @@
 const { Router } = require("express");
-const router = Router();
+const routes = Router();
 
-const { getDrivers } = require("../Controllers/getDrivers");
-const getDriverById = require("../Controllers/getDriverById");
-const { postDrivers } = require("../Controllers/postDrivers");
-const { getTeams } = require("../Controllers/getTeams");
+const driversRoutes = require("./driversRoutes");
+const teamsRoutes = require("./teamsRoutes");
 
-router.get("/drivers", getDrivers);
-router.get("/drivers/:id", getDriverById);
-router.post("/drivers", postDrivers);
-router.get("/teams", getTeams);
+routes.use("/drivers", driversRoutes);
+routes.use("/teams", teamsRoutes);
 
-module.exports = router;
+module.exports = routes;
