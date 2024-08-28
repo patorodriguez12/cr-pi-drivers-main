@@ -1,11 +1,18 @@
-import { GET_DRIVERS, GET_DRIVERS_BY_ID } from "./actions";
+import { GET_DRIVERS, GET_DRIVERS_BY_ID, SET_LOADING } from "./actions";
 
 const initialState = {
   drivers: [],
+  loading: false,
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload,
+      };
+
     case GET_DRIVERS:
       return {
         ...state,

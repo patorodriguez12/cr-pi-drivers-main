@@ -5,7 +5,9 @@ import style from "./Card.css";
 function Card({ driver }) {
   return (
     <div className="card">
-      <Link className="link">DRIVER CARD</Link>
+      <Link className="link">
+      IMAGE
+      </Link>
     </div>
   );
 }
