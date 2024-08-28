@@ -27,7 +27,7 @@
   display: inline-block;
   width: 30px; /* Ajusta el ancho según el tamaño de tu imagen PNG */
   height: 30px; /* Ajusta la altura según el tamaño de tu imagen PNG */
-  background-image: url("../../../../../public//assets/searchIcon.png"); /* Ruta a tu imagen PNG */
+  background-image: url("/assets/searchIcon.png"); /* Ruta a tu imagen PNG */
   background-size: cover;
   background-repeat: no-repeat;
 }
