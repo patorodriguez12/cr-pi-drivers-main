@@ -3,7 +3,7 @@ import CardsContainer from "../../Components/CardsContainer/CardsContainer";
 import Nav from "../../Components/Nav/Nav";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Footer from "../../Components/Footer/Footer";
-import style from "./Home.css";
+import "./Home.css";
 
 function Home() {
   return (

@@ -1,6 +1,5 @@
-import Card from "../Card/Card";
 import React, { useEffect, useState } from "react";
-import "./CardsContainer.css"; // Asegúrate de importar el archivo CSS
+import "./CardsContainer.css";
 import { getDrivers, setLoading } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -8,7 +7,6 @@ import { Link } from "react-router-dom";
 function Cards({ drivers }) {
   const dispatch = useDispatch();
   const driversData = useSelector((state) => state.drivers);
-  const loading = useSelector((state) => state.loading);
   const [driverName, setDriverName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9);
@@ -17,13 +15,6 @@ function Cards({ drivers }) {
     dispatch(setLoading(true));
     dispatch(getDrivers(driverName));
   }, []);
-
-  const driversMap = driversData.length
-    ? driversData.reduce(
-        (a, driver) => ({ ...a, [driver.driverID]: driver }),
-        {}
-      )
-    : {};
 
   const indexOfLastDriver = currentPage * itemsPerPage;
   const indexOfFirstDriver = indexOfLastDriver - itemsPerPage;
@@ -58,12 +49,16 @@ function Cards({ drivers }) {
     return pages;
   };
 
+  const handleImageLoad = (event) => {
+    event.target.classList.add("loaded");
+  };
+
   return (
     <div>
       <section className="cards-container">
         {currentDriver?.length &&
           currentDriver.map((driver) => (
-            <div className="card" key={driver.driverID}>
+            <div className="card" key={driver.id}>
               <Link className="link">
                 <img src={driver.image} alt={driver.forename} />
                 <h1>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import styles from "./Detail.css";
+import "./Detail.css";
 
 function Detail() {
   const { id } = useParams();

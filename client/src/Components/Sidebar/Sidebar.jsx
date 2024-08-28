@@ -3,7 +3,7 @@ import FilterByAZ from "../Filters/FilterByAZ";
 import FilterByDate from "../Filters/FilterByDate";
 import FilterByOrigin from "../Filters/FilterByOrigin";
 import FilterByTeam from "../Filters/FilterByTeam";
-import style from "./Sidebar.css";
+import "./Sidebar.css";
 
 function Sidebar() {
   return (
