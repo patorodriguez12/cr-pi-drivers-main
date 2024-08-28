@@ -16,7 +16,7 @@ function Cards({ drivers }) {
   useEffect(() => {
     dispatch(setLoading(true));
     dispatch(getDrivers(driverName));
-  });
+  }, []);
 
   const driversMap = driversData.length
     ? driversData.reduce(
@@ -32,10 +32,6 @@ function Cards({ drivers }) {
     indexOfLastDriver
   );
   const totalPages = Math.ceil(driversData.length / itemsPerPage);
-
-  useEffect(() => {
-    dispatch(getDrivers(driverName));
-  }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
