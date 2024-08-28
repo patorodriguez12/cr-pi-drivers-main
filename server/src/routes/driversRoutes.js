@@ -5,6 +5,6 @@ const { postDrivers } = require("../Controllers/Drivers/postDrivers");
 const driversRoutes = Router();
 
 driversRoutes.post("/create", postDrivers);
-driversRoutes.get("/", getDrivers);
+driversRoutes.post("/", getDrivers);
 
 module.exports = driversRoutes;

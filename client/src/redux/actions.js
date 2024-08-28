@@ -1,0 +1,62 @@
+import axios from "axios";
+
+export const GET_DRIVERS = "GET_DRIVERS";
+export const GET_DRIVERS_BY_ID = "GET_DRIVERS_BY_ID";
+export const SET_LOADING = "SET_LOADING";
+
+const URL = "http://localhost:3001";
+
+export const setLoading = (isLoading) => {
+  return { type: SET_LOADING, payload: isLoading };
+};
+
+// GET DRIVERS
+export const getDrivers = (
+  driverName,
+  driverTeams,
+  driverNationality,
+  dobSort
+) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URL}/drivers`, {
+        filters: {
+          forename_filter: driverName || "",
+          teams_filter: driverTeams || "",
+          nationality_filter: driverNationality || "",
+          dob_order: dobSort || "",
+        },
+        page: 1,
+        itemsPerPage: 100,
+      });
+      return dispatch({
+        type: GET_DRIVERS,
+        payload: response.data.drivers,
+      });
+    } catch (error) {
+      console.error(`Error getting drivers: ${error}`);
+    }
+  };
+};
+
+// GET DRIVER BY ID
+export const getDriverById = (driverID) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URL}/drivers`, {
+        filters: {
+          id_filter: driverID,
+        },
+        page: 1,
+        itemsPerPage: 50,
+      });
+      console.log(response.data);
+      return dispatch({
+        type: GET_DRIVERS_BY_ID,
+        payload: response.data.drivers,
+      });
+    } catch (error) {
+      console.error(`Error getting driver detail: ${error}`);
+    }
+  };
+};
