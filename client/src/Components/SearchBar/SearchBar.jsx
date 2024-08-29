@@ -3,18 +3,15 @@ import { useDispatch } from "react-redux";
 import { getDrivers } from "../../redux/actions";
 import "./SearchBar.css";
 
-function SearchBar() {
+function SearchBar({ setCurrentPage }) {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
 
   const handleInputChange = (event) => {
     const value = event.target.value;
     setSearchTerm(value);
+    setCurrentPage(1);
     dispatch(getDrivers(value));
-  };
-
-  const handleSearch = () => {
-    dispatch(getDrivers(searchTerm));
   };
 
   return (

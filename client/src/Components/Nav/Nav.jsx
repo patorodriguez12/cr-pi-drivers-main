@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import SearchBar from "../SearchBar/SearchBar";
 import "./Nav.css";
 
-function Nav() {
+function Nav({ setCurrentPage }) {
   return (
     <div className="nav">
       <Link to={`/`}>
         <button>🡰</button>
       </Link>
-      <SearchBar />
+      <SearchBar setCurrentPage={setCurrentPage}/>
       <Link to={`/create`}>
         <button>Create new driver</button>
       </Link>

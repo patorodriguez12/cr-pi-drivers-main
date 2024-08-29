@@ -54,41 +54,46 @@ function Cards({ drivers }) {
   };
 
   return (
-    <div>
-      <section className="cards-container">
-        {currentDriver?.length &&
-          currentDriver.map((driver) => (
-            <div className="card" key={driver.id}>
-              <Link className="link">
-                <img src={driver.image} alt={driver.forename} />
-                <h1>
-                  {driver.forename} {driver.surname}
-                </h1>
-                <p>{driver.nationality}</p>
-              </Link>
-            </div>
-          ))}
-      </section>
+    <div className="mainContent">
+      {currentDriver.length ? (
+        <div>
+          <section className="cards-container">
+            {currentDriver?.length &&
+              currentDriver.map((driver) => (
+                <div className="card" key={driver.id}>
+                  <Link className="link">
+                    <img src={driver.image} alt={driver.forename} />
+                    <h1>
+                      {driver.forename} {driver.surname}
+                    </h1>
+                    <p>{driver.nationality}</p>
+                  </Link>
+                </div>
+              ))}
+          </section>
+          <section className="pagination">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              className={currentPage === 1 ? "disabled" : ""}
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </button>
 
-      <section className="pagination">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          className={currentPage === 1 ? "disabled" : ""}
-          disabled={currentPage === 1}
-        >
-          &lt;
-        </button>
+            {renderPageNumbers()}
 
-        {renderPageNumbers()}
-
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          className={currentPage === totalPages ? "disabled" : ""}
-          disabled={currentPage === totalPages}
-        >
-          &gt;
-        </button>
-      </section>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              className={currentPage === totalPages ? "disabled" : ""}
+              disabled={currentPage === totalPages}
+            >
+              &gt;
+            </button>
+          </section>
+        </div>
+      ) : (
+        <div className="no-results">No se encontraron resultados</div>
+      )}
     </div>
   );
 }
