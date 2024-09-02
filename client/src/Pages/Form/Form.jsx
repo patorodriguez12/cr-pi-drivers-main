@@ -1,15 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createDriver } from "../../redux/actions";
 import "./Form.css";
-import validate from "./validator";
 
-function Form() {
-  const teams = useSelector((state) => state.allTeams);
-  const dispatch = useDispatch();
-
-  // Estado del formulario
+function Form({ closeForm }) {
   const [formData, setFormData] = useState({
     image: "",
     forename: "",
@@ -17,214 +11,105 @@ function Form() {
     nationality: "",
     dob: "",
     description: "",
-    teams: [],
+    teams: ""
   });
 
-  // Estado de errores
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
-  // Estado que verifica si se esta modificando el formulario
-  const [formTouched, setFormTouched] = useState(false);
-
-  useEffect(() => {
-    if (formTouched) {
-      setErrors(validate(formData));
-    }
-  }, [formData, formTouched]);
-
-  // Handlers que actualizan el estado del formulario
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    const validationErrors = validate({ ...formData, [name]: value });
-    setErrors(validationErrors);
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-    setFormTouched(true);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
-  const handleTeamChange = (event) => {
-    const selectedId = event.target.value;
-    if (!formData.teams.includes(selectedId)) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        teams: [...prevFormData.teams, selectedId],
-      }));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatch(createDriver(formData));
+      closeForm(); // Cierra el formulario si la creación fue exitosa
+    } catch (error) {
+      setError("Error creating driver. Please try again.");
     }
   };
-
-  const handleDropdownToggle = () => {
-    const dropdown = document.getElementById("teamsDropdown");
-  };
-
-  const handleTeamRemove = (id) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      teams: prevFormData.teams.filter((teamId) => teamId !== id),
-    }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    let aux = Object.keys(errors);
-    if (aux.length === 0) {
-      setFormData({
-        image: "",
-        forename: "",
-        surname: "",
-        nationality: "",
-        dob: "",
-        description: "",
-        teams: [],
-      });
-      const validationErrors = validate(formData);
-      setErrors(validationErrors);
-
-      const payload = {
-        image: formData.image,
-        forename: formData.forename,
-        surname: formData.surname,
-        nationality: formData.nationality,
-        dob: formData.dob,
-        description: formData.description,
-        teams: formData.teams,
-      };
-      dispatch(createNewDriver(payload));
-      setFormTouched(false);
-    } else {
-      return alert(errors);
-    }
-  };
-
-  const isSubmitDisabled = Object.keys(errors).length > 0 || !formTouched;
 
   return (
-    <div className="formContainer">
-      <div className="bar">
-        <h1 className="title">Create a new driver</h1>
-        <Link to={`/home`}>
-          <button className="back">✖</button>
-        </Link>
-      </div>
-      <div className="new">
-        <form className="form" onSubmit={handleSubmit}>
-          {/* Dentro del formulario */}
-          <label>
-            Image (url):
+    <div className="form-overlay">
+      <div className="form-container">
+        <form onSubmit={handleSubmit} className="driver-form">
+          <div>
+            <label>Image URL:</label>
             <input
               type="text"
               name="image"
               value={formData.image}
               onChange={handleChange}
-              className="input"
+              required
             />
-          </label>
-          {errors.image && <span className="error">{errors.image}</span>}
-          <br />
-          <label>
-            Forename:{" "}
+          </div>
+          <div>
+            <label>Forename:</label>
             <input
               type="text"
-              key="forename"
               name="forename"
               value={formData.forename}
               onChange={handleChange}
-              className="input"
-            />{" "}
-          </label>
-          <span className="error">{errors?.forename && errors.forename}</span>
-          <br />
-          <label>
-            Surname:{" "}
+              required
+            />
+          </div>
+          <div>
+            <label>Surname:</label>
             <input
               type="text"
-              key="surname"
               name="surname"
               value={formData.surname}
               onChange={handleChange}
-              className="input"
-            />{" "}
-          </label>
-          <span className="error">{errors?.surname && errors.surname}</span>
-          <br />
-          <label>
-            Nationality:{" "}
+              required
+            />
+          </div>
+          <div>
+            <label>Nationality:</label>
             <input
               type="text"
-              key="nationality"
               name="nationality"
               value={formData.nationality}
               onChange={handleChange}
-              className="input"
-            />{" "}
-          </label>
-          <span className="error">
-            {errors?.nationality && errors.nationality}
-          </span>
-          <br />
-          <label>
-            Date of birth:
+              required
+            />
+          </div>
+          <div>
+            <label>Date of Birth (dd-mm-yyyy):</label>
             <input
-              type="date"
-              key="dob"
+              type="text"
               name="dob"
               value={formData.dob}
               onChange={handleChange}
-              className="input"
+              required
             />
-          </label>
-          <span className="error">{errors?.dob && errors.dob}</span>
-          <br />
-          <label>
-            Description:{" "}
-            <input
-              type="text"
-              key="description"
+          </div>
+          <div>
+            <label>Description:</label>
+            <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="input"
-            />{" "}
-          </label>
-          <span className="error">
-            {errors?.description && errors.description}
-          </span>
-          <br />
-          <label>
-            Teams:
-            <div onClick={handleDropdownToggle}>
-              <select
-                id="teamsDropdown"
-                multiple
-                value={formData.teams}
-                onChange={handleTeamChange}
-              >
-                {teams.map((team) => (
-                  <option key={team} value={team}>
-                    {team}
-                  </option>
-                ))}
-              </select>
-              <div className="selected-values">
-                {formData.teams.map((selectedTeam) => (
-                  <div key={selectedTeam} className="selected-Team">
-                    {selectedTeam}{" "}
-                    <button
-                      type="button"
-                      onClick={() => handleTeamRemove(selectedTeam)}
-                    >
-                      ✖
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <span className="error">{errors?.teams && errors.teams}</span>
-          </label>
-          <br />
-          <button type="submit" disabled={isSubmitDisabled}>
-            Submit
-          </button>
-          {isSubmitDisabled && <span>Form is empty or contains errors</span>}
+              required
+            />
+          </div>
+          <div>
+            <label>Teams:</label>
+            <input
+              type="text"
+              name="teams"
+              value={formData.teams}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit">Create Driver</button>
+          <button type="button" onClick={closeForm}>Cancel</button>
         </form>
       </div>
     </div>

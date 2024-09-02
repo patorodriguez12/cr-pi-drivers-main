@@ -1,6 +1,8 @@
 import {
   GET_DRIVERS,
   GET_DRIVERS_BY_ID,
+  CREATE_DRIVER,
+  GET_TEAMS,
   SET_LOADING,
   SET_CURRENT_PAGE,
   SET_SEARCH_TERM,
@@ -8,6 +10,7 @@ import {
 
 const initialState = {
   drivers: [],
+  teams: [],
   loading: false,
   currentPage: 1,
   searchTerm: "",
@@ -33,6 +36,18 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         drivers: action.payload,
+      };
+
+    case CREATE_DRIVER:
+      return {
+        ...state,
+        drivers: [...state.drivers, action.payload],
+      };
+
+    case GET_TEAMS:
+      return {
+        ...state,
+        teams: action.payload,
       };
 
     case SET_CURRENT_PAGE:
