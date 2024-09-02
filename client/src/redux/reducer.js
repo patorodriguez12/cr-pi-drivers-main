@@ -1,8 +1,16 @@
-import { GET_DRIVERS, GET_DRIVERS_BY_ID, SET_LOADING } from "./actions";
+import {
+  GET_DRIVERS,
+  GET_DRIVERS_BY_ID,
+  SET_LOADING,
+  SET_CURRENT_PAGE,
+  SET_SEARCH_TERM,
+} from "./actions";
 
 const initialState = {
   drivers: [],
   loading: false,
+  currentPage: 1,
+  searchTerm: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -25,6 +33,18 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         drivers: action.payload,
+      };
+
+    case SET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload,
+      };
+
+    case SET_SEARCH_TERM:
+      return {
+        ...state,
+        searchTerm: action.payload,
       };
 
     default:

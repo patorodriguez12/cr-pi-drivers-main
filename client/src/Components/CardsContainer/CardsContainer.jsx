@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./CardsContainer.css";
-import { getDrivers, setLoading } from "../../redux/actions";
+import { getDrivers, setLoading, setCurrentPage } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 function Cards({ drivers }) {
   const dispatch = useDispatch();
   const driversData = useSelector((state) => state.drivers);
-  const [driverName, setDriverName] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const currentPage = useSelector((state) => state.currentPage);
+  const searchTerm = useSelector((state) => state.searchTerm);
   const [itemsPerPage] = useState(9);
 
   useEffect(() => {
     dispatch(setLoading(true));
-    dispatch(getDrivers(driverName));
-  }, []);
+    dispatch(getDrivers(searchTerm));
+  }, [dispatch, searchTerm, currentPage]);
 
   const indexOfLastDriver = currentPage * itemsPerPage;
   const indexOfFirstDriver = indexOfLastDriver - itemsPerPage;
@@ -25,12 +25,11 @@ function Cards({ drivers }) {
   const totalPages = Math.ceil(driversData.length / itemsPerPage);
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    dispatch(setCurrentPage(page));
   };
 
   const renderPageNumbers = () => {
     const pages = [];
-
     const startPage = Math.max(1, currentPage - 2);
     const endPage = Math.min(totalPages, currentPage + 2);
 
@@ -47,10 +46,6 @@ function Cards({ drivers }) {
     }
 
     return pages;
-  };
-
-  const handleImageLoad = (event) => {
-    event.target.classList.add("loaded");
   };
 
   return (

@@ -3,11 +3,25 @@ import axios from "axios";
 export const GET_DRIVERS = "GET_DRIVERS";
 export const GET_DRIVERS_BY_ID = "GET_DRIVERS_BY_ID";
 export const SET_LOADING = "SET_LOADING";
+export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+export const SET_SEARCH_TERM = "SET_SEARCH_TERM";
 
 const URL = "http://localhost:3001";
 
 export const setLoading = (isLoading) => {
   return { type: SET_LOADING, payload: isLoading };
+};
+
+export const setCurrentPage = (pageNumber) => ({
+  type: SET_CURRENT_PAGE,
+  payload: pageNumber,
+});
+
+export const setSearchTerm = (searchTerm) => {
+  return {
+    type: SET_SEARCH_TERM,
+    payload: searchTerm,
+  };
 };
 
 // GET DRIVERS
