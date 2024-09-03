@@ -5,6 +5,7 @@ import "./Form.css";
 
 function Form({ closeForm }) {
   const teamsData = useSelector((state) => state.teams);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     image: "",
     forename: "",
@@ -12,27 +13,54 @@ function Form({ closeForm }) {
     nationality: "",
     dob: "",
     description: "",
-    teams: ""
+    teams: [],
   });
 
   useEffect(() => {
-    dispatch(getTeams())
-  })
+    dispatch(getTeams());
+  }, [dispatch]);
 
   const [error, setError] = useState(null);
-  const dispatch = useDispatch();
+
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "teams") {
+      const selectedTeams = Array.from(e.target.selectedOptions, option => option.value);
+      setFormData({
+        ...formData,
+        teams: selectedTeams,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  const handleTeamClick = (team) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      teams: [...formData.teams, team],
+    });
+  };
+
+  const handleRemoveTeam = (team) => {
+    setFormData({
+      ...formData,
+      teams: formData.teams.filter((t) => t !== team),
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(createDriver(formData));
+      await dispatch(createDriver({
+        ...formData,
+        teams: formData.teams.join(", "), // Convertir el array a una cadena separada por comas
+      }));
       closeForm(); // Cierra el formulario si la creación fue exitosa
     } catch (error) {
       setError("Error creating driver. Please try again.");
@@ -104,17 +132,33 @@ function Form({ closeForm }) {
           </div>
           <div>
             <label>Teams:</label>
-            <input
-              type="text"
+            <select
               name="teams"
-              value={formData.teams}
-              onChange={handleChange}
-              required
-            />
+              onChange={(e) => handleTeamClick(e.target.value)}
+            >
+              <option value="" disabled selected>Seleccione un equipo</option>
+              {teamsData.map((team, index) => (
+                <option key={index} value={team}>
+                  {team}
+                </option>
+              ))}
+            </select>
+            <div className="selected-teams">
+              {formData.teams.map((team, index) => (
+                <div key={index} className="selected-team">
+                  {team}
+                  <button type="button" onClick={() => handleRemoveTeam(team)}>
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
           {error && <p className="error-message">{error}</p>}
           <button type="submit">Create Driver</button>
-          <button type="button" onClick={closeForm}>Cancel</button>
+          <button type="button" onClick={closeForm}>
+            Cancel
+          </button>
         </form>
       </div>
     </div>
