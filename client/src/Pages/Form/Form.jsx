@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createDriver } from "../../redux/actions";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createDriver, getTeams } from "../../redux/actions";
 import "./Form.css";
 
 function Form({ closeForm }) {
+  const teamsData = useSelector((state) => state.teams);
   const [formData, setFormData] = useState({
     image: "",
     forename: "",
@@ -13,6 +14,10 @@ function Form({ closeForm }) {
     description: "",
     teams: ""
   });
+
+  useEffect(() => {
+    dispatch(getTeams())
+  })
 
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
