@@ -66,7 +66,7 @@ export const getDriverById = (driverID) => {
         page: 1,
         itemsPerPage: 50,
       });
-      console.log(response.data);
+      console.log(response.data.drivers[0]);
       return dispatch({
         type: GET_DRIVERS_BY_ID,
         payload: response.data.drivers,

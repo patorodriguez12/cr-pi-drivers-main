@@ -55,8 +55,8 @@ function Cards({ drivers }) {
           <section className="cards-container">
             {currentDriver?.length &&
               currentDriver.map((driver) => (
-                <div className="card" key={driver.id}>
-                  <Link className="link">
+                <div className="card" key={driver.id} >
+                  <Link className="link" to={`/detail/${driver.id}`}>
                     <img src={driver.image} alt={driver.forename} />
                     <h1>
                       {driver.forename} {driver.surname}

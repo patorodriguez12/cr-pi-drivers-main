@@ -35,7 +35,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        drivers: action.payload,
+        driver: action.payload,
       };
 
     case CREATE_DRIVER:
