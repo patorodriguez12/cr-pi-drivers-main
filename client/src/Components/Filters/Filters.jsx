@@ -1,7 +1,6 @@
-// src/components/Filters/Filters.jsx
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getDrivers } from '../../redux/actions';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDrivers, getTeams } from '../../redux/actions';
 import {
   Box,
   TextField,
@@ -11,18 +10,30 @@ import {
   FormControl,
   Button,
   Typography,
+  Chip,
 } from '@mui/material';
 
 function Filters() {
   const [driverName, setDriverName] = useState('');
-  const [driverTeams, setDriverTeams] = useState('');
+  const [driverTeams, setDriverTeams] = useState([]);
   const [driverNationality, setDriverNationality] = useState('');
   const [dobSort, setDobSort] = useState('');
 
   const dispatch = useDispatch();
+  const teamsData = useSelector((state) => state.teams);
+
+  useEffect(() => {
+    dispatch(getTeams());
+  }, [dispatch]);
 
   const handleFilterChange = () => {
-    dispatch(getDrivers(driverName, driverTeams, driverNationality, dobSort));
+    // Convert array of selected teams to comma-separated string
+    const teamsString = driverTeams.join(', ');
+    dispatch(getDrivers(driverName, teamsString, driverNationality, dobSort));
+  };
+
+  const handleTeamChange = (event) => {
+    setDriverTeams(event.target.value);
   };
 
   return (
@@ -32,19 +43,34 @@ function Filters() {
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField
-          label="Nombre del Piloto"
+          label="Nombre del Driver"
           variant="outlined"
           value={driverName}
           onChange={(e) => setDriverName(e.target.value)}
           fullWidth
         />
-        <TextField
-          label="Equipos"
-          variant="outlined"
-          value={driverTeams}
-          onChange={(e) => setDriverTeams(e.target.value)}
-          fullWidth
-        />
+        <FormControl fullWidth>
+          <InputLabel id="team-select">Seleccione los equipos</InputLabel>
+          <Select
+            labelId="team-select"
+            multiple
+            value={driverTeams}
+            onChange={handleTeamChange}
+            renderValue={(selected) => (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {selected.map((value) => (
+                  <Chip key={value} label={value} />
+                ))}
+              </Box>
+            )}
+          >
+            {teamsData.map((team) => (
+              <MenuItem key={team} value={team}>
+                {team}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           label="Nacionalidad"
           variant="outlined"
@@ -57,8 +83,8 @@ function Filters() {
           <Select
             labelId="dob-sort-label"
             value={dobSort}
-            label="Ordenar por Fecha de Nacimiento"
             onChange={(e) => setDobSort(e.target.value)}
+            label="Ordenar por Fecha de Nacimiento"
           >
             <MenuItem value="">
               <em>Seleccione Orden</em>

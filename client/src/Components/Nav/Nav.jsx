@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Button, Box, IconButton } from "@mui/material";
 import SearchBar from "../SearchBar/SearchBar";
 import Form from "../../Pages/Form/Form";
-import "./Nav.css";
 
 function Nav({ setCurrentPage }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -12,15 +12,43 @@ function Nav({ setCurrentPage }) {
   };
 
   return (
-    <div className="nav">
-      <Link to={`/`}>
-        <button>🡰</button>
-      </Link>
-      <SearchBar setCurrentPage={setCurrentPage} />
-      <button onClick={toggleForm}>Create new driver</button>
+    <AppBar position="static">
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: "primary.main", // Cambia el color del fondo si lo deseas
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <IconButton
+            component={Link}
+            to={`/`}
+            sx={{
+              color: "white", // Color del ícono o texto
+              marginRight: 2,
+            }}
+          >
+            🡰
+          </IconButton>
+        </Box>
+
+        <SearchBar setCurrentPage={setCurrentPage} />
+
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={toggleForm}
+          sx={{ marginLeft: 2 }}
+        >
+          Create new driver
+        </Button>
+      </Toolbar>
+
       {isFormOpen && <Form closeForm={toggleForm} />}
-    </div>
+    </AppBar>
   );
 }
 
 export default Nav;
+

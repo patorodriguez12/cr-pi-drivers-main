@@ -20,21 +20,21 @@ function Home() {
       }}
     >
       <Nav setCurrentPage={setCurrentPage} />
-      <Box
-        component="section"
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-          flexGrow: 1,
-        }}
-      >
+      <Box sx={{ display: "flex" }}>
         <Sidebar />
-        <CardsContainer
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
+        <Box
+          sx={{
+            flexGrow: 1, // Hace que el contenido principal ocupe el espacio restante
+            padding: 2, // Espaciado interno
+          }}
+        >
+          <CardsContainer
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </Box>
       </Box>
+
       <Footer />
     </Box>
   );
