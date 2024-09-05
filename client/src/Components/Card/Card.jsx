@@ -1,74 +1,66 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Paper, Typography } from '@mui/material';
+import React from "react";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+  Button,
+  CardMedia,
+} from "@mui/material";
 
-function Card({ driver }) {
+function Cards({ driver }) {
   return (
-    <Paper
+    <Card
       sx={{
-        width: '300px',
-        height: '450px',
-        borderRadius: '8px',
-        overflow: 'hidden',
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
-        margin: '20px',
-        backgroundColor: 'white',
-        padding: '3px',
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-        '&:hover': {
-          transform: 'scale(1.03)',
-          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)',
+        maxWidth: 345,
+        height: 345,
+        transition: "transform 0.3s ease-in-out",
+        "&:hover": {
+          transform: "translateY(-10px)",
+          "& .see-more-button": {
+            opacity: 1,
+            visibility: "visible",
+          },
         },
+        backgroundColor: "tertiary.main",
       }}
     >
-      <Link
-        to={`/detail/${driver.id}`}
-        style={{
-          display: 'flex',
-          textDecoration: 'none',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
+      <CardContent
+        container
+        sx={{ padding: "2px", alignItems: "center"}}
       >
-        <img
-          src={driver.image}
+        <CardMedia
+          component="img"
+          image={driver.image}
+          height={230}
           alt={driver.forename}
-          style={{
-            width: '100%',
-            height: '300px',
-            display: 'block',
-            objectFit: 'cover',
-          }}
         />
-        <Typography
-          variant="h5"
-          sx={{
-            fontSize: '28px',
-            marginBottom: '8px',
-            marginTop: '25px',
-            transition: 'color 0.3s ease',
-          }}
-        >
+        <Typography variant="h5" component="div">
           {driver.forename} {driver.surname}
         </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            color: '#666',
-            fontSize: '15px',
-            lineHeight: 1.3,
-            marginBottom: '8px',
-            transition: 'color 0.3s ease',
-            '&:hover': {
-              color: '#333',
-            },
-          }}
+        <Typography variant="body2">{driver.nationality}</Typography>
+      </CardContent>
+      <CardActions>
+        <a
+          href={`https://external-link.com/driver/${driver.id}`}
+          style={{ textDecoration: "none" }}
         >
-          {driver.nationality}
-        </Typography>
-      </Link>
-    </Paper>
+          <Button
+            className="see-more-button"
+            sx={{
+              color: "#007bff",
+              transition: "opacity 0.3s",
+              opacity: 0,
+              visibility: "hidden",
+              "&:hover": { color: "#0056b3" },
+            }}
+          >
+            See details
+          </Button>
+        </a>
+      </CardActions>
+    </Card>
   );
 }
 
-export default Card;
+export default Cards;

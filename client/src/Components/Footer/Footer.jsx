@@ -5,7 +5,7 @@ function Footer() {
   return (
     <Box
       sx={{
-        backgroundColor: "background.paper",
+        backgroundColor: "secondary.main",
         padding: 2,
         textAlign: "center",
         position: "relative",
@@ -15,10 +15,10 @@ function Footer() {
         borderColor: "divider",
       }}
     >
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="tertiary.main">
         © 2024 Your Company Name
       </Typography>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="tertiary.main">
         <Link href="#" color="inherit" sx={{ mx: 1 }}>
           Privacy Policy
         </Link>
@@ -27,7 +27,7 @@ function Footer() {
           Terms of Service
         </Link>
       </Typography>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="tertiary.main">
         Follow us:
         <Link href="#" color="inherit" sx={{ mx: 1 }}>
           Facebook

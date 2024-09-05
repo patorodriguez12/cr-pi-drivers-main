@@ -9,29 +9,22 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(1);
 
   return (
-      <Grid2
-        container
-        sx={{
-          backgroundImage: "url('assets/backgroundImage.jpg')",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Nav setCurrentPage={setCurrentPage} />
-        <Box sx={{ display: "flex" }}>
-          <Sidebar />
-          <Box>
-            <CardList
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </Box>
-        </Box>
-        <Footer />
-      </Grid2>
+    <Grid2
+      sx={{
+        backgroundImage: "url('assets/backgroundImage.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        minHeight: "100vh",
+        minWidth: "100vh",
+      }}
+    >
+      <Nav setCurrentPage={setCurrentPage} />
+      <Box sx={{ display: "flex" }}>
+        <Sidebar />
+        <CardList currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      </Box>
+      <Footer />
+    </Grid2>
   );
 }
 
