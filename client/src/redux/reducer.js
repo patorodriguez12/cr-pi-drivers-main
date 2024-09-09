@@ -4,16 +4,12 @@ import {
   CREATE_DRIVER,
   GET_TEAMS,
   SET_LOADING,
-  SET_CURRENT_PAGE,
-  SET_SEARCH_TERM,
 } from "./actions";
 
 const initialState = {
   drivers: [],
   teams: [],
   loading: false,
-  currentPage: 1,
-  searchTerm: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -48,18 +44,6 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         teams: action.payload,
-      };
-
-    case SET_CURRENT_PAGE:
-      return {
-        ...state,
-        currentPage: action.payload,
-      };
-
-    case SET_SEARCH_TERM:
-      return {
-        ...state,
-        searchTerm: action.payload,
       };
 
     default:

@@ -43,7 +43,7 @@ export const getDrivers = (
           dob_order: dobSort || "",
         },
         page: 1,
-        itemsPerPage: 100,
+        itemsPerPage: 9,
       });
       return dispatch({
         type: GET_DRIVERS,

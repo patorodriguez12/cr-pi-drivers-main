@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { getDrivers, setLoading } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Pagination } from "@mui/material";
 import Cards from "../Card/Card";
-import Pagination from "../Pagination/Pagination";
 
 function CardList() {
   const dispatch = useDispatch();
   const driversData = useSelector((state) => state.drivers);
-  const currentPage = useSelector((state) => state.currentPage);
   const searchTerm = useSelector((state) => state.searchTerm);
+  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9);
 
   useEffect(() => {
     dispatch(setLoading(true));
     dispatch(getDrivers(searchTerm));
-  }, [dispatch, searchTerm, currentPage]);
+  }, [dispatch, searchTerm]);
 
   const indexOfLastDriver = currentPage * itemsPerPage;
   const indexOfFirstDriver = indexOfLastDriver - itemsPerPage;
-  const currentDriver = driversData.slice(indexOfFirstDriver, indexOfLastDriver);
+  const currentDriver = driversData.slice(
+    indexOfFirstDriver,
+    indexOfLastDriver
+  );
+  const totalPages = Math.ceil(driversData.length / itemsPerPage);
+
+  console.log(driversData[1]);
 
   return (
-    <Box sx={{ padding: "20px", paddingLeft: "100px", paddingRight: "100px"}}>
+    <Box sx={{ padding: "20px", paddingLeft: "100px", paddingRight: "100px" }}>
       {currentDriver.length ? (
         <>
           <Grid container spacing={3}>
@@ -41,7 +46,31 @@ function CardList() {
               marginTop: "20px",
             }}
           >
-            <Pagination />
+            <Box
+              sx={{
+                color: "#fff",
+                '& .MuiPaginationItem-root': {
+                  borderColor: '#fff',
+                  color: '#fff',
+                },
+                '& .MuiPaginationItem-root.Mui-selected': {
+                  backgroundColor: '#007bff',
+                  color: '#fff',
+                },
+                '& .MuiPaginationItem-root:hover': {
+                  borderColor: '#007bff',
+                }
+              }}
+            >
+              {totalPages > 1 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={(e, page) => setCurrentPage(page)}
+                  variant="outlined"
+                />
+              )}
+            </Box>
           </Box>
         </>
       ) : (
