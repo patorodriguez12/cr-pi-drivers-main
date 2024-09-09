@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getDrivers, setLoading } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Box, Pagination } from "@mui/material";
+import { Grid, Box, Pagination, Typography } from "@mui/material";
 import Cards from "../Card/Card";
 
 function CardList() {
@@ -27,17 +27,45 @@ function CardList() {
   console.log(driversData[1]);
 
   return (
-    <Box sx={{ padding: "20px", paddingLeft: "100px", paddingRight: "100px" }}>
+    <Box
+      sx={{
+        padding: "20px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Typography
+        sx={{
+          color: "#fff",
+          padding: "20px",
+        }}
+      >
+        Page {currentPage} of {totalPages}
+      </Typography>
       {currentDriver.length ? (
         <>
-          <Grid container spacing={3}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "16px", // Adjust gap as needed
+              justifyContent: "center",
+              maxWidth: "1200px", // Adjust maxWidth as needed
+            }}
+          >
             {currentDriver.map((driver) => (
-              <Grid item xs={12} sm={6} md={4} key={driver.id}>
+              <Box
+                key={driver.id}
+                sx={{
+                  width: "300px", // Adjust width as needed
+                  flexShrink: 0,
+                }}
+              >
                 <Cards driver={driver} />
-              </Grid>
+              </Box>
             ))}
-          </Grid>
-
+          </Box>
           <Box
             sx={{
               display: "flex",
@@ -49,26 +77,41 @@ function CardList() {
             <Box
               sx={{
                 color: "#fff",
-                '& .MuiPaginationItem-root': {
-                  borderColor: '#fff',
-                  color: '#fff',
+                "& .MuiPaginationItem-root": {
+                  borderColor: "#fff",
+                  color: "#fff",
                 },
-                '& .MuiPaginationItem-root.Mui-selected': {
-                  backgroundColor: '#007bff',
-                  color: '#fff',
+                "& .MuiPaginationItem-root.Mui-selected": {
+                  backgroundColor: "#007bff",
+                  color: "#fff",
                 },
-                '& .MuiPaginationItem-root:hover': {
-                  borderColor: '#007bff',
-                }
+                "& .MuiPaginationItem-root:hover": {
+                  borderColor: "#007bff",
+                },
               }}
             >
               {totalPages > 1 && (
-                <Pagination
-                  count={totalPages}
-                  page={currentPage}
-                  onChange={(e, page) => setCurrentPage(page)}
-                  variant="outlined"
-                />
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography>
+                    Page {currentPage} of {totalPages}
+                  </Typography>
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={(e, page) => setCurrentPage(page)}
+                    primary="main.secondary"
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    siblingCount={2}
+                  />
+                </Box>
               )}
             </Box>
           </Box>

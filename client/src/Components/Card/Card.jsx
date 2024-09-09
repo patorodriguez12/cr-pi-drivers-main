@@ -23,7 +23,6 @@ function Cards({ driver }) {
             image={driver.image}
             alt={driver.forename}
             height={260}
-            sx={{ width: "100%", height: "260px", objectFit: "cover" }}
           />
           <CardHeader
             title={`${driver.forename} ${driver.surname}`}
