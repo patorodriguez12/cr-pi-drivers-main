@@ -9,7 +9,7 @@ function CardList() {
   const driversData = useSelector((state) => state.drivers);
   const searchTerm = useSelector((state) => state.searchTerm);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(9);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -24,15 +24,13 @@ function CardList() {
   );
   const totalPages = Math.ceil(driversData.length / itemsPerPage);
 
-  console.log(driversData[1]);
-
   return (
     <Box
       sx={{
-        padding: "20px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        alignContent: "center",
       }}
     >
       <Typography
@@ -49,16 +47,16 @@ function CardList() {
             sx={{
               display: "flex",
               flexWrap: "wrap",
-              gap: "16px", // Adjust gap as needed
+              gap: "25px",
               justifyContent: "center",
-              maxWidth: "1200px", // Adjust maxWidth as needed
+              margin: "0 auto",
             }}
           >
             {currentDriver.map((driver) => (
               <Box
                 key={driver.id}
                 sx={{
-                  width: "300px", // Adjust width as needed
+                  width: "300px",
                   flexShrink: 0,
                 }}
               >

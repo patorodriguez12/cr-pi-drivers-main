@@ -6,11 +6,10 @@ function Sidebar() {
   return (
     <Box
       sx={{
-        width: 250, // Ancho del sidebar
-        padding: 2, // Espaciado interno
-        backgroundColor: 'background.paper', // Color de fondo
-        boxShadow: 3, // Sombra para darle profundidad
-        // Agrega otras propiedades de estilo según tus necesidades
+        width: "auto",
+        padding: 2,
+        backgroundColor: 'background.paper',
+        boxShadow: 3,
       }}
     >
       <Filters />

@@ -3,7 +3,6 @@ const { Drivers } = require("../../db");
 const axios = require("axios");
 const { validate: isUUID } = require("uuid");
 
-// Define the parseTeams function
 const parseTeams = (teamsString) =>
   teamsString.split(",").map((team) => team.trim().toLowerCase());
 
@@ -11,6 +10,9 @@ const arrayFilterAPI = (arr, filters) => {
   return arr
     .filter((elem) => {
       let matches = true;
+
+      // Asegurarse de que todos los datos de la API tengan `created: false`
+      elem.created = false;
 
       if (filters.forename_filter) {
         matches =
@@ -44,6 +46,14 @@ const arrayFilterAPI = (arr, filters) => {
             .includes(filters.nationality_filter.toLowerCase());
       }
 
+      // Filtro por created (booleano), solo aplica si el filtro no es null o undefined
+      if (
+        filters.created_filter !== undefined &&
+        filters.created_filter !== null
+      ) {
+        matches = matches && elem.created === filters.created_filter;
+      }
+
       return matches;
     })
     .sort((a, b) => {
@@ -52,7 +62,7 @@ const arrayFilterAPI = (arr, filters) => {
       } else if (filters.dob_order === "desc") {
         return new Date(b.dob) - new Date(a.dob);
       }
-      return 0; // Si no hay orden específico, no se realiza ninguna acción
+      return 0;
     })
     .map((elem) => {
       return {
@@ -64,7 +74,7 @@ const arrayFilterAPI = (arr, filters) => {
         teams: elem.teams,
         nationality: elem.nationality,
         description: elem.description,
-        created: false,
+        created: false, // Asegura que los datos de la API siempre tengan "created: false"
       };
     });
 };
@@ -75,7 +85,7 @@ const getDrivers = async (req, res) => {
 
     const queryOptions = {
       where: {},
-      order: [], // Añadir lógica de orden si es necesario
+      order: [],
       limit: itemsPerPage,
       offset: 0,
       ...(page && { offset: (page - 1) * itemsPerPage }),
@@ -103,12 +113,14 @@ const getDrivers = async (req, res) => {
         }
       }
     } else {
+      // Filtro por nombre
       if (filters.forename_filter) {
         queryOptions.where.forename = {
           [Op.iLike]: `%${filters.forename_filter}%`,
         };
       }
 
+      // Filtro por teams
       if (filters.teams_filter) {
         const teamsFilter = parseTeams(filters.teams_filter);
 
@@ -119,10 +131,20 @@ const getDrivers = async (req, res) => {
         };
       }
 
-      // Filtro por nationality en la base de datos
+      // Filtro por nationality
       if (filters.nationality_filter) {
         queryOptions.where.nationality = {
           [Op.iLike]: `%${filters.nationality_filter}%`,
+        };
+      }
+
+      // Filtro por origen (DB o API) - filtro booleano
+      if (
+        filters.created_filter !== undefined &&
+        filters.created_filter !== null
+      ) {
+        queryOptions.where.created = {
+          [Op.eq]: filters.created_filter,
         };
       }
 
