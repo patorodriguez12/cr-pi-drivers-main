@@ -2,45 +2,95 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getDriverById } from "../../redux/actions";
-import "./Detail.css";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  CircularProgress,
+  Container,
+} from "@mui/material";
 
 function Detail() {
-  const { id } = useParams(); // Obtiene el ID del driver de la URL
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const drivers = useSelector((state) => state.drivers); // Obtiene todos los drivers del estado
+  const drivers = useSelector((state) => state.drivers);
 
   useEffect(() => {
-    dispatch(getDriverById(id)); // Llama a la acción para cargar los datos del driver
+    dispatch(getDriverById(id));
   }, [dispatch, id]);
 
-  // Función para verificar si el ID es un UUID
   const isUUID = (id) => {
-    const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+    const uuidRegex =
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
     return uuidRegex.test(id);
   };
 
-  // Filtra el driver que coincide con el ID
   const driver = drivers.find((driver) => {
     if (isUUID(id)) {
-      return driver.id === id; // Comparación para UUID
+      return driver.id === id;
     } else {
-      return driver.id === parseInt(id); // Comparación para integer
+      return driver.id === parseInt(id);
     }
   });
 
   if (!driver) {
-    return <p>Loading...</p>;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (
-    <div className="detail-container">
-      <h1>{`${driver.forename} ${driver.surname}`}</h1>
-      <img src={driver.image} alt={`${driver.forename} ${driver.surname}`} />
-      <p><strong>Date of Birth:</strong> {driver.dob}</p>
-      <p><strong>Nationality:</strong> {driver.nationality}</p>
-      <p><strong>Teams:</strong> {driver.teams}</p>
-      <p><strong>Description:</strong> {driver.description}</p>
-    </div>
+    <Container sx={{ padding: 4 }}>
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          boxShadow: 3,
+          borderRadius: 2,
+          backgroundColor: "background.paper",
+        }}
+      >
+        <CardMedia
+          component="img"
+          sx={{
+            width: { xs: "100%", sm: "40%" },
+            height: { xs: 300, sm: "100%" },
+            objectFit: "cover",
+          }}
+          image={driver.image}
+          alt={`${driver.forename} ${driver.surname}`}
+        />
+
+        <CardContent sx={{ flex: "1 0 auto", padding: 3 }}>
+          <Typography component="h2" variant="h4" gutterBottom>
+            {`${driver.forename} ${driver.surname}`}
+          </Typography>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
+            <strong>Date of Birth:</strong> {driver.dob}
+          </Typography>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
+            <strong>Nationality:</strong> {driver.nationality}
+          </Typography>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
+            <strong>Teams:</strong> {driver.teams}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            <strong>Description:</strong> {driver.description}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Container>
   );
 }
 

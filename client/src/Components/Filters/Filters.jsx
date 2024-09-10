@@ -13,9 +13,10 @@ import {
   Grid2,
   useMediaQuery,
   useTheme,
+  Divider,
 } from "@mui/material";
 
-function Filters({ onApplyFilters }) {
+function Filters() {
   const [driverName, setDriverName] = useState("");
   const [driverTeams, setDriverTeams] = useState([]);
   const [driverNationality, setDriverNationality] = useState("");
@@ -25,8 +26,6 @@ function Filters({ onApplyFilters }) {
   const dispatch = useDispatch();
   const teamsData = useSelector((state) => state.teams);
   const driversData = useSelector((state) => state.drivers);
-
-  // Extrae las nacionalidades únicas y las ordena
   const nationalitiesData = [
     ...new Set(driversData.map((driver) => driver.nationality)),
   ].sort();
@@ -58,10 +57,6 @@ function Filters({ onApplyFilters }) {
     setDriverTeams([...driverTeams, value]);
   };
 
-  const handleDeleteTeam = (teamToDelete) => {
-    setDriverTeams(driverTeams.filter((team) => team !== teamToDelete));
-  };
-
   const handleNationalityChange = (event) => {
     setDriverNationality(event.target.value);
   };
@@ -82,24 +77,34 @@ function Filters({ onApplyFilters }) {
     !dobSort &&
     driverOrigin === null;
 
+  const isClearDisabled =
+    !driverName &&
+    driverTeams.length === 0 &&
+    !driverNationality &&
+    !dobSort &&
+    driverOrigin === null;
+
   return (
     <Grid2
       width={isMobile ? "100%" : 300}
       padding={2}
       sx={{ overflow: "hidden" }}
     >
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom marginBottom={4}>
         Filters
       </Typography>
+
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {/* TEAM FILTERS */}
         <FormControl fullWidth>
           <InputLabel id="team-select">Select teams</InputLabel>
           <Select
             labelId="team-select"
+            value=""
             onChange={handleTeamChange}
             renderValue={() => null}
-            MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }} // Opcional: limita la altura del menú
-            label="Select teams"
+            MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
+            label="Select Teams"
           >
             {teamsData.map((team) => (
               <MenuItem key={team} value={team}>
@@ -107,31 +112,31 @@ function Filters({ onApplyFilters }) {
               </MenuItem>
             ))}
           </Select>
+          <Box
+            sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, marginTop: 2 }}
+          >
+            {driverTeams.map((team) => (
+              <Chip
+                key={team}
+                label={team}
+                sx={{ marginBottom: 1 }}
+              />
+            ))}
+          </Box>
         </FormControl>
 
-        {/* Mostrar los equipos seleccionados debajo del select */}
-        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, marginTop: 2 }}>
-          {driverTeams.map((team) => (
-            <Chip
-              key={team}
-              label={team}
-              onDelete={() => handleDeleteTeam(team)}
-              sx={{ marginBottom: 1 }}
-            />
-          ))}
-        </Box>
-        <FormControl fullWidth>
+        <Divider />
+
+        {/* NATIONALITY FILTERS */}
+        <FormControl fullWidth sx={{ gap: 0.5, marginTop: 2 }}>
           <InputLabel id="nationality-select">Select nationality</InputLabel>
           <Select
             labelId="nationality-select"
             value={driverNationality}
             onChange={handleNationalityChange}
-            label="Select nationality"
             MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
+            label="Select nationality"
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {nationalitiesData.map((nationality) => (
               <MenuItem key={nationality} value={nationality}>
                 {nationality}
@@ -140,15 +145,13 @@ function Filters({ onApplyFilters }) {
           </Select>
           <Box mt={1}>
             {driverNationality && (
-              <Chip
-                key={driverNationality}
-                label={driverNationality}
-                onDelete={() => setDriverNationality("")}
-              />
+              <Chip key={driverNationality} label={driverNationality} />
             )}
           </Box>
         </FormControl>
-        <FormControl fullWidth>
+        <Divider />
+        {/* DATE OF BIRTH SORT */}
+        <FormControl fullWidth sx={{ gap: 0.5, marginTop: 2 }}>
           <InputLabel id="dob-sort-label">Sort by date of birth</InputLabel>
           <Select
             labelId="dob-sort-label"
@@ -156,14 +159,15 @@ function Filters({ onApplyFilters }) {
             onChange={(e) => setDobSort(e.target.value)}
             label="Sort by date of birth"
           >
-            <MenuItem value="">
-              <em>Select sort</em>
-            </MenuItem>
             <MenuItem value="asc">Ascendant</MenuItem>
             <MenuItem value="desc">Descendant</MenuItem>
           </Select>
+          <Box></Box>
         </FormControl>
-        <FormControl fullWidth>
+        <Divider />
+
+        {/* ORIGIN FILTER */}
+        <FormControl fullWidth sx={{ gap: 0.5, marginTop: 2 }}>
           <InputLabel id="origin-filter">Sort by origin</InputLabel>
           <Select
             labelId="origin-filter"
@@ -171,13 +175,14 @@ function Filters({ onApplyFilters }) {
             onChange={(e) => setDriverOrigin(e.target.value)}
             label="Sort by origin"
           >
-            <MenuItem value={null}>
-              <em>Select origin</em>
-            </MenuItem>
             <MenuItem value={true}>Data Base</MenuItem>
             <MenuItem value={false}>External API</MenuItem>
           </Select>
+          <Box></Box>
         </FormControl>
+        <Divider />
+
+        {/* APPLY AND CLEAR BUTTONS */}
         <Button
           variant="contained"
           color="primary"
@@ -191,6 +196,7 @@ function Filters({ onApplyFilters }) {
           color="secondary"
           onClick={handleClearFilters}
           sx={{ mt: 1 }}
+          disabled={isClearDisabled}
         >
           Clear Filters
         </Button>

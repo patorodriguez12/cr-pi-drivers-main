@@ -10,8 +10,21 @@ function CardList() {
   const searchTerm = useSelector((state) => state.searchTerm);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [selectedDriverId, setSelectedDriverId] = useState(null);
 
-  // Recalcular las páginas cuando los datos cambian
+  
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    dispatch(getDrivers(searchTerm));
+  }, [dispatch, searchTerm]);
+
+  const indexOfLastDriver = currentPage * itemsPerPage;
+  const indexOfFirstDriver = indexOfLastDriver - itemsPerPage;
+  const currentDriver = driversData.slice(
+    indexOfFirstDriver,
+    indexOfLastDriver
+  );
   const totalPages = Math.ceil(driversData.length / itemsPerPage);
 
   useEffect(() => {
@@ -20,18 +33,6 @@ function CardList() {
       setCurrentPage(totalPages > 0 ? totalPages : 1); // Ajustar a la última página o a 1 si no hay páginas
     }
   }, [driversData, totalPages, currentPage]);
-
-  useEffect(() => {
-    dispatch(setLoading(true));
-    dispatch(getDrivers(searchTerm, currentPage, itemsPerPage)); // Asegúrate de pasar la página actual
-  }, [dispatch, searchTerm, currentPage, itemsPerPage]);
-
-  const indexOfLastDriver = currentPage * itemsPerPage;
-  const indexOfFirstDriver = indexOfLastDriver - itemsPerPage;
-  const currentDriver = driversData.slice(
-    indexOfFirstDriver,
-    indexOfLastDriver
-  );
 
   return (
     <Box

@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createDriver, getTeams } from "../../redux/actions";
-import "./Form.css";
+import {
+  Box,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  Chip,
+  FormControl,
+  InputLabel,
+  Typography,
+  Modal,
+} from "@mui/material";
 
 function Form({ closeForm }) {
   const teamsData = useSelector((state) => state.teams);
@@ -22,22 +33,12 @@ function Form({ closeForm }) {
 
   const [error, setError] = useState(null);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (name === "teams") {
-      const selectedTeams = Array.from(e.target.selectedOptions, option => option.value);
-      setFormData({
-        ...formData,
-        teams: selectedTeams,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleTeamClick = (team) => {
@@ -57,10 +58,9 @@ function Form({ closeForm }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(createDriver({
-        ...formData,
-        teams: formData.teams.join(", "), // Convertir el array a una cadena separada por comas
-      }));
+      await dispatch(
+        createDriver({ ...formData, teams: formData.teams.join(", ") })
+      );
       closeForm(); // Cierra el formulario si la creación fue exitosa
     } catch (error) {
       setError("Error creating driver. Please try again.");
@@ -68,100 +68,119 @@ function Form({ closeForm }) {
   };
 
   return (
-    <div className="form-overlay">
-      <div className="form-container">
-        <form onSubmit={handleSubmit} className="driver-form">
-          <div>
-            <label>Image URL:</label>
-            <input
-              type="text"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Forename:</label>
-            <input
-              type="text"
-              name="forename"
-              value={formData.forename}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Surname:</label>
-            <input
-              type="text"
-              name="surname"
-              value={formData.surname}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Nationality:</label>
-            <input
-              type="text"
-              name="nationality"
-              value={formData.nationality}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Date of Birth (dd-mm-yyyy):</label>
-            <input
-              type="text"
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Description:</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Teams:</label>
-            <select
+    <Modal open={true} onClose={closeForm}>
+      <Box
+        sx={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          bgcolor: "background.paper",
+          borderRadius: 2,
+          boxShadow: 24,
+          p: 4,
+        }}
+      >
+        <Typography variant="h6" component="h2" mb={2}>
+          Create New Driver
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Image URL"
+            name="image"
+            value={formData.image}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Forename"
+            name="forename"
+            value={formData.forename}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Surname"
+            name="surname"
+            value={formData.surname}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Nationality"
+            name="nationality"
+            value={formData.nationality}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Date of Birth"
+            name="dob"
+            type="date"
+            value={formData.dob}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            label="Description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Select Teams</InputLabel>
+            <Select
+              label="Teams"
               name="teams"
+              value=""
               onChange={(e) => handleTeamClick(e.target.value)}
             >
-              <option value="" disabled selected>Seleccione un equipo</option>
               {teamsData.map((team, index) => (
-                <option key={index} value={team}>
+                <MenuItem key={index} value={team}>
                   {team}
-                </option>
+                </MenuItem>
               ))}
-            </select>
-            <div className="selected-teams">
+            </Select>
+            <Box mt={2}>
               {formData.teams.map((team, index) => (
-                <div key={index} className="selected-team">
-                  {team}
-                  <button type="button" onClick={() => handleRemoveTeam(team)}>
-                    X
-                  </button>
-                </div>
+                <Chip
+                  key={index}
+                  label={team}
+                  onDelete={() => handleRemoveTeam(team)}
+                  sx={{ marginRight: 1, marginBottom: 1 }}
+                />
               ))}
-            </div>
-          </div>
-          {error && <p className="error-message">{error}</p>}
-          <button type="submit">Create Driver</button>
-          <button type="button" onClick={closeForm}>
-            Cancel
-          </button>
+            </Box>
+          </FormControl>
+          {error && <Typography color="error">{error}</Typography>}
+          <Box mt={2} display="flex" justifyContent="space-between">
+            <Button variant="contained" color="primary" type="submit">
+              Create
+            </Button>
+            <Button variant="outlined" color="secondary" onClick={closeForm}>
+              Cancel
+            </Button>
+          </Box>
         </form>
-      </div>
-    </div>
+      </Box>
+    </Modal>
   );
 }
 
