@@ -11,10 +11,20 @@ function CardList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
+  // Recalcular las páginas cuando los datos cambian
+  const totalPages = Math.ceil(driversData.length / itemsPerPage);
+
+  useEffect(() => {
+    // Si el filtro cambia y la página actual es mayor que el total de páginas, ajusta la página
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages > 0 ? totalPages : 1); // Ajustar a la última página o a 1 si no hay páginas
+    }
+  }, [driversData, totalPages, currentPage]);
+
   useEffect(() => {
     dispatch(setLoading(true));
-    dispatch(getDrivers(searchTerm));
-  }, [dispatch, searchTerm]);
+    dispatch(getDrivers(searchTerm, currentPage, itemsPerPage)); // Asegúrate de pasar la página actual
+  }, [dispatch, searchTerm, currentPage, itemsPerPage]);
 
   const indexOfLastDriver = currentPage * itemsPerPage;
   const indexOfFirstDriver = indexOfLastDriver - itemsPerPage;
@@ -22,7 +32,6 @@ function CardList() {
     indexOfFirstDriver,
     indexOfLastDriver
   );
-  const totalPages = Math.ceil(driversData.length / itemsPerPage);
 
   return (
     <Box
@@ -31,16 +40,10 @@ function CardList() {
         flexDirection: "column",
         alignItems: "center",
         alignContent: "center",
+        minHeight: "100vh",
+        marginTop: "20px",
       }}
     >
-      <Typography
-        sx={{
-          color: "#fff",
-          padding: "20px",
-        }}
-      >
-        Page {currentPage} of {totalPages}
-      </Typography>
       {currentDriver.length ? (
         <>
           <Box
@@ -86,6 +89,7 @@ function CardList() {
                 "& .MuiPaginationItem-root:hover": {
                   borderColor: "#007bff",
                 },
+                marginTop: "20px",
               }}
             >
               {totalPages > 1 && (

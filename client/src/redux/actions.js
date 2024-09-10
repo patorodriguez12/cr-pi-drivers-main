@@ -31,7 +31,8 @@ export const getDrivers = (
   driverName,
   driverTeams,
   driverNationality,
-  dobSort
+  dobSort,
+  driverOrigin,
 ) => {
   return async (dispatch) => {
     try {
@@ -41,6 +42,7 @@ export const getDrivers = (
           teams_filter: driverTeams || "",
           nationality_filter: driverNationality || "",
           dob_order: dobSort || "",
+          created_filter: driverOrigin,
         },
         page: 1,
         itemsPerPage: 9,
