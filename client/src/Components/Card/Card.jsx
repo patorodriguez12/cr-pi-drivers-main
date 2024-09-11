@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardMedia } from "@mui/material";
 
 function Cards({ driver }) {
   return (
-    <Link to={`/detail/${driver.id}`} style={{ textDecoration: "none" }}>
+    <Link style={{textDecoration: "none"}}>
       <Card
         container
         sx={{

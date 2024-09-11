@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Button, Box, IconButton } from "@mui/material";
 import SearchBar from "../SearchBar/SearchBar";
-import Form from "../../Pages/Form/Form";
+import Form from "../Form/Form";
 
 function Nav({ setCurrentPage }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -51,4 +51,3 @@ function Nav({ setCurrentPage }) {
 }
 
 export default Nav;
-

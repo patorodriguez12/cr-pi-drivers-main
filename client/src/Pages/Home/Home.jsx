@@ -19,10 +19,7 @@ function Home() {
       }}
     >
       <Nav setCurrentPage={setCurrentPage} />
-      <Box sx={{ display: "flex" }}>
-        <Sidebar />
-        <CardList currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      </Box>
+      <CardList currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <Footer />
     </Grid2>
   );

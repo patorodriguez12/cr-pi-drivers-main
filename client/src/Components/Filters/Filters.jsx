@@ -86,7 +86,7 @@ function Filters() {
 
   return (
     <Grid2
-      width={isMobile ? "100%" : 300}
+      width={isMobile ? "100%" : 275}
       padding={2}
       sx={{ overflow: "hidden" }}
     >
