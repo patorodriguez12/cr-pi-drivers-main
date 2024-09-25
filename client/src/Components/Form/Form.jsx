@@ -13,6 +13,7 @@ import {
   Typography,
   Modal,
 } from "@mui/material";
+import { validateForm } from "./validations"; // Importar el archivo de validaciones
 
 function Form({ closeForm }) {
   const teamsData = useSelector((state) => state.teams);
@@ -27,11 +28,19 @@ function Form({ closeForm }) {
     teams: [],
   });
 
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
   useEffect(() => {
     dispatch(getTeams());
   }, [dispatch]);
 
-  const [error, setError] = useState(null);
+  useEffect(() => {
+    const formErrors = validateForm(formData);
+    setErrors(formErrors);
+    setIsFormValid(Object.keys(formErrors).length === 0);
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +48,11 @@ function Form({ closeForm }) {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched({ ...touched, [name]: true });
   };
 
   const handleTeamClick = (team) => {
@@ -61,9 +75,10 @@ function Form({ closeForm }) {
       await dispatch(
         createDriver({ ...formData, teams: formData.teams.join(", ") })
       );
-      closeForm(); // Cierra el formulario si la creación fue exitosa
+      closeForm();
+      window.location.reload(); // Refrescar la página al crear un nuevo driver
     } catch (error) {
-      setError("Error creating driver. Please try again.");
+      setErrors({ submit: "Error creating driver. Please try again." });
     }
   };
 
@@ -91,8 +106,11 @@ function Form({ closeForm }) {
             name="image"
             value={formData.image}
             onChange={handleChange}
+            onBlur={handleBlur}
             fullWidth
             margin="normal"
+            error={touched.image && !!errors.image}
+            helperText={touched.image && errors.image}
             required
           />
           <TextField
@@ -100,8 +118,11 @@ function Form({ closeForm }) {
             name="forename"
             value={formData.forename}
             onChange={handleChange}
+            onBlur={handleBlur}
             fullWidth
             margin="normal"
+            error={touched.forename && !!errors.forename}
+            helperText={touched.forename && errors.forename}
             required
           />
           <TextField
@@ -109,8 +130,11 @@ function Form({ closeForm }) {
             name="surname"
             value={formData.surname}
             onChange={handleChange}
+            onBlur={handleBlur}
             fullWidth
             margin="normal"
+            error={touched.surname && !!errors.surname}
+            helperText={touched.surname && errors.surname}
             required
           />
           <TextField
@@ -118,8 +142,11 @@ function Form({ closeForm }) {
             name="nationality"
             value={formData.nationality}
             onChange={handleChange}
+            onBlur={handleBlur}
             fullWidth
             margin="normal"
+            error={touched.nationality && !!errors.nationality}
+            helperText={touched.nationality && errors.nationality}
             required
           />
           <TextField
@@ -128,8 +155,11 @@ function Form({ closeForm }) {
             type="date"
             value={formData.dob}
             onChange={handleChange}
+            onBlur={handleBlur}
             fullWidth
             margin="normal"
+            error={touched.dob && !!errors.dob}
+            helperText={touched.dob && errors.dob}
             required
             InputLabelProps={{
               shrink: true,
@@ -140,8 +170,11 @@ function Form({ closeForm }) {
             name="description"
             value={formData.description}
             onChange={handleChange}
+            onBlur={handleBlur}
             fullWidth
             margin="normal"
+            error={touched.description && !!errors.description}
+            helperText={touched.description && errors.description}
             required
           />
           <FormControl fullWidth margin="normal">
@@ -168,10 +201,20 @@ function Form({ closeForm }) {
                 />
               ))}
             </Box>
+            {touched.teams && errors.teams && (
+              <Typography color="error">{errors.teams}</Typography>
+            )}
           </FormControl>
-          {error && <Typography color="error">{error}</Typography>}
+          {errors.submit && (
+            <Typography color="error">{errors.submit}</Typography>
+          )}
           <Box mt={2} display="flex" justifyContent="space-between">
-            <Button variant="contained" color="primary" type="submit">
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              disabled={!isFormValid}
+            >
               Create
             </Button>
             <Button variant="outlined" color="secondary" onClick={closeForm}>

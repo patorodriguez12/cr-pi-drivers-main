@@ -46,7 +46,7 @@ const arrayFilterAPI = (arr, filters) => {
             .includes(filters.nationality_filter.toLowerCase());
       }
 
-      // Filtro por created (booleano), solo aplica si el filtro no es null o undefined
+      // Filtro por created (booleano)
       if (
         filters.created_filter !== undefined &&
         filters.created_filter !== null
@@ -55,14 +55,6 @@ const arrayFilterAPI = (arr, filters) => {
       }
 
       return matches;
-    })
-    .sort((a, b) => {
-      if (filters.dob_order === "asc") {
-        return new Date(a.dob) - new Date(b.dob);
-      } else if (filters.dob_order === "desc") {
-        return new Date(b.dob) - new Date(a.dob);
-      }
-      return 0;
     })
     .map((elem) => {
       return {
@@ -74,7 +66,7 @@ const arrayFilterAPI = (arr, filters) => {
         teams: elem.teams,
         nationality: elem.nationality,
         description: elem.description,
-        created: false, // Asegura que los datos de la API siempre tengan "created: false"
+        created: false,
       };
     });
 };
@@ -113,17 +105,15 @@ const getDrivers = async (req, res) => {
         }
       }
     } else {
-      // Filtro por nombre
+      // Filtros
       if (filters.forename_filter) {
         queryOptions.where.forename = {
           [Op.iLike]: `%${filters.forename_filter}%`,
         };
       }
 
-      // Filtro por teams
       if (filters.teams_filter) {
         const teamsFilter = parseTeams(filters.teams_filter);
-
         queryOptions.where.teams = {
           [Op.and]: teamsFilter.map((team) => ({
             [Op.iLike]: `%${team}%`,
@@ -131,14 +121,12 @@ const getDrivers = async (req, res) => {
         };
       }
 
-      // Filtro por nationality
       if (filters.nationality_filter) {
         queryOptions.where.nationality = {
           [Op.iLike]: `%${filters.nationality_filter}%`,
         };
       }
 
-      // Filtro por origen (DB o API) - filtro booleano
       if (
         filters.created_filter !== undefined &&
         filters.created_filter !== null
@@ -148,7 +136,7 @@ const getDrivers = async (req, res) => {
         };
       }
 
-      // Ordenamiento por fecha de nacimiento (dob)
+      // Ordenar por dob
       if (filters.dob_order) {
         queryOptions.order.push(["dob", filters.dob_order.toUpperCase()]);
       }
@@ -167,9 +155,22 @@ const getDrivers = async (req, res) => {
       }
     }
 
+    // Combinar los datos de la DB y la API
+    let combinedData = [...dbData.rows, ...APIDataClean];
+
+    // Aplicar el orden de dob a los datos combinados si hay un orden
+    if (filters.dob_order) {
+      combinedData = combinedData.sort((a, b) => {
+        const dateA = new Date(a.dob);
+        const dateB = new Date(b.dob);
+        return filters.dob_order === "asc" ? dateA - dateB : dateB - dateA;
+      });
+    }
+
+    // Devolver los datos combinados paginados
     const result = {
-      total: dbData.count + APIDataClean.length,
-      drivers: [...dbData.rows, ...APIDataClean],
+      total: combinedData.length,
+      drivers: combinedData,
     };
 
     return res.status(200).json(result);

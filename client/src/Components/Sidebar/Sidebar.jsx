@@ -6,9 +6,9 @@ function Sidebar() {
   return (
     <Box
       sx={{
-        width: "auto",
+        width: "20%",
         padding: 2,
-        backgroundColor: 'background.paper',
+        backgroundColor: "background.paper",
         boxShadow: 3,
       }}
     >
@@ -18,4 +18,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-
