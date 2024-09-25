@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { createDriver, getTeams } from "../../redux/actions";
 import {
@@ -13,11 +14,16 @@ import {
   Typography,
   Modal,
 } from "@mui/material";
-import { validateForm } from "./validations"; // Importar el archivo de validaciones
+import { validateForm } from "./validations";
 
 function Form({ closeForm }) {
   const teamsData = useSelector((state) => state.teams);
   const dispatch = useDispatch();
+  const [nationalities, setNationalities] = useState([]);
+  const [selectedNationality, setSelectedNationality] = useState("");
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState({
     image: "",
     forename: "",
@@ -28,19 +34,36 @@ function Form({ closeForm }) {
     teams: [],
   });
 
-  const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({});
-  const [isFormValid, setIsFormValid] = useState(false);
-
-  useEffect(() => {
-    dispatch(getTeams());
-  }, [dispatch]);
-
+  // error handling using validations
   useEffect(() => {
     const formErrors = validateForm(formData);
     setErrors(formErrors);
     setIsFormValid(Object.keys(formErrors).length === 0);
   }, [formData]);
+
+  
+  // i used countries API to get all nationalities
+  useEffect(() => {
+    const fetchNationalities = async () => {
+      try {
+        const response = await axios.get("https://restcountries.com/v3.1/all");
+        const countries = response.data;
+
+        const nationalitiesList = countries.map((country) => ({
+          name: country.name.common,
+          demonym: country.demonyms?.eng?.m || country.name.common,
+        }));
+
+        nationalitiesList.sort((a, b) => a.name.localeCompare(b.name));
+
+        setNationalities(nationalitiesList);
+      } catch (error) {
+        console.error("Error fetching nationalities:", error);
+      }
+    };
+
+    fetchNationalities();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +71,10 @@ function Form({ closeForm }) {
       ...formData,
       [name]: value,
     });
+
+    if (name === "nationality") {
+      setSelectedNationality(value);
+    }
   };
 
   const handleBlur = (e) => {
@@ -55,11 +82,18 @@ function Form({ closeForm }) {
     setTouched({ ...touched, [name]: true });
   };
 
+  // use of getTeams actions
+  useEffect(() => {
+    dispatch(getTeams());
+  }, [dispatch]);
+
   const handleTeamClick = (team) => {
-    setFormData({
-      ...formData,
-      teams: [...formData.teams, team],
-    });
+    if (!formData.teams.includes(team)) {
+      setFormData({
+        ...formData,
+        teams: [...formData.teams, team],
+      });
+    }
   };
 
   const handleRemoveTeam = (team) => {
@@ -69,6 +103,7 @@ function Form({ closeForm }) {
     });
   };
 
+  // Create button will be disabled if any field is empty or have errors
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -76,7 +111,7 @@ function Form({ closeForm }) {
         createDriver({ ...formData, teams: formData.teams.join(", ") })
       );
       closeForm();
-      window.location.reload(); // Refrescar la página al crear un nuevo driver
+      window.location.reload();
     } catch (error) {
       setErrors({ submit: "Error creating driver. Please try again." });
     }
@@ -137,18 +172,24 @@ function Form({ closeForm }) {
             helperText={touched.surname && errors.surname}
             required
           />
-          <TextField
-            label="Nationality"
-            name="nationality"
-            value={formData.nationality}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            fullWidth
-            margin="normal"
-            error={touched.nationality && !!errors.nationality}
-            helperText={touched.nationality && errors.nationality}
-            required
-          />
+          <FormControl fullWidth>
+            <InputLabel id="nationality-label">Select Nationality</InputLabel>
+            <Select
+              labelId="nationality-label"
+              id="nationality"
+              name="nationality"
+              value={selectedNationality}
+              onChange={handleChange}
+              label="Select Nationality"
+              required
+            >
+              {nationalities.map((nation) => (
+                <MenuItem key={nation.name} value={nation.demonym}>
+                  {nation.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField
             label="Date of Birth"
             name="dob"

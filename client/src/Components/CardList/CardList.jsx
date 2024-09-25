@@ -3,7 +3,6 @@ import { getDrivers, setLoading } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid, Box, Pagination, Typography } from "@mui/material";
 import Cards from "../Card/Card";
-import Detail from "../Detail/Detail";
 
 function CardList() {
   const dispatch = useDispatch();
