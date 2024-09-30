@@ -41,7 +41,6 @@ function Form({ closeForm }) {
     setIsFormValid(Object.keys(formErrors).length === 0);
   }, [formData]);
 
-  
   // i used countries API to get all nationalities
   useEffect(() => {
     const fetchNationalities = async () => {
@@ -126,7 +125,7 @@ function Form({ closeForm }) {
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: 400,
-          bgcolor: "background.paper",
+          backgroundColor: "#A9A9A9",
           borderRadius: 2,
           boxShadow: 24,
           p: 4,

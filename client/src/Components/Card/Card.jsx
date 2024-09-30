@@ -13,7 +13,7 @@ function Cards({ driver }) {
           "&:hover": {
             transform: "translateY(-10px)",
           },
-          backgroundColor: "tertiary.main",
+          backgroundColor: "#2B2A4C",
           overflow: "hidden",
         }}
       >
@@ -27,7 +27,9 @@ function Cards({ driver }) {
           <CardHeader
             title={`${driver.forename} ${driver.surname}`}
             subheader={driver.nationality}
-            sx={{ textAlign: "center" }}
+            subheaderTypographyProps={{ style: { color: "#E10600" } }}
+            sx={{ textAlign: "center", color: "#EEE2DE" }}
+            
           />
         </CardContent>
       </Card>

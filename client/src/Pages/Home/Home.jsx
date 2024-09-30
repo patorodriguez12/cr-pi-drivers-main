@@ -10,7 +10,7 @@ function Home() {
 
   return (
     <Box sx={{
-      backgroundImage: "url('assets/backgroundImage.jpg')",
+      backgroundColor: "#A9A9A9",
       backgroundSize: "cover",
       display: "flex",
       flexDirection: "column",

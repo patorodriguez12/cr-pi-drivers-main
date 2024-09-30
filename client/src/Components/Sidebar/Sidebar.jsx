@@ -7,8 +7,8 @@ function Sidebar() {
     <Box
       sx={{
         width: "20%",
-        padding: 2,
-        backgroundColor: "background.paper",
+        padding: 5,
+        backgroundColor: "#262626",
         boxShadow: 3,
       }}
     >

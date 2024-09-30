@@ -1,17 +1,26 @@
 // src/theme.js
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#000000', // Color primario
+      main: "#0C0C0C",
     },
     secondary: {
-      main: '#FF1E00', // Color secundario
+      main: "#481E14",
     },
     tertiary: {
-      main: '#E8F9FD',
-    }
+      main: "#9B3922",
+    },
+    text: {
+      main: "#EEEEEE",
+    },
+    card: {
+      main: "#A9A9A9",
+    },
+    footer: {
+      main: "#F2613F",
+    },
   },
 });
 

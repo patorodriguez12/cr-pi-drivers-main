@@ -17,29 +17,27 @@ function Nav({ setCurrentPage }) {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          backgroundColor: "primary.main", // Cambia el color del fondo si lo deseas
+          backgroundColor: "#E10600",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <IconButton
-            component={Link}
-            to={`/`}
-            sx={{
-              color: "white", // Color del ícono o texto
-              marginRight: 2,
-            }}
-          >
-            🡰
-          </IconButton>
+        <Box sx={{ display: "flex"}}>
+          <Box component={Link} to="/home" sx={{ marginRight: 2 }}>
+            <img
+              src={"/assets/f1-logo.png"}
+              alt="Logo"
+              style={{ width: "120px", height: "35px", color: "#EEEEEE" }}
+            />
+          </Box>
         </Box>
+
+
 
         <SearchBar setCurrentPage={setCurrentPage} />
 
         <Button
           variant="contained"
-          color="secondary"
           onClick={toggleForm}
-          sx={{ marginLeft: 2 }}
+          sx={{ backgroundColor: "tertiary.main", color: "text.main", marginLeft: 2 }}
         >
           Create new driver
         </Button>

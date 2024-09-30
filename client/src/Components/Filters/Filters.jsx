@@ -88,23 +88,31 @@ function Filters() {
     <Grid2
       width={isMobile ? "100%" : 275}
       padding={2}
-      sx={{ overflow: "hidden" }}
+      sx={{ overflow: "hidden", backgroundColor: "#262626", color: "#FFFFFF" }} // Fondo oscuro y texto blanco
     >
-      <Typography variant="h5" gutterBottom marginBottom={4}>
+      <Typography
+        variant="h5"
+        gutterBottom
+        marginBottom={4}
+        sx={{ color: "#E10600", fontWeight: "bold" }} // Título estilo F1 (rojo y negrita)
+      >
         Filters
       </Typography>
 
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {/* TEAM FILTERS */}
         <FormControl fullWidth>
-          <InputLabel id="team-select">Select teams</InputLabel>
+          <InputLabel sx={{ color: "#E10600" }} id="team-select">
+            Select teams
+          </InputLabel>
           <Select
             labelId="team-select"
             value=""
             onChange={handleTeamChange}
             renderValue={() => null}
-            MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
+            MenuProps={{ PaperProps: { sx: { maxHeight: 300, backgroundColor: "#333333", color: "#FFFFFF" } } }} // Estilo de menú desplegable oscuro
             label="Select Teams"
+            sx={{ color: "#FFFFFF" }} // Texto de los filtros
           >
             {teamsData.map((team) => (
               <MenuItem key={team} value={team}>
@@ -112,30 +120,35 @@ function Filters() {
               </MenuItem>
             ))}
           </Select>
-          <Box
-            sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, marginTop: 2 }}
-          >
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, marginTop: 2 }}>
             {driverTeams.map((team) => (
               <Chip
                 key={team}
                 label={team}
-                sx={{ marginBottom: 1 }}
+                sx={{
+                  marginBottom: 1,
+                  backgroundColor: "#E10600", // Color del chip (rojo F1)
+                  color: "#FFF",
+                }}
               />
             ))}
           </Box>
         </FormControl>
 
-        <Divider />
+        <Divider sx={{ backgroundColor: "#E10600", marginY: 2 }} /> {/* Línea roja */}
 
         {/* NATIONALITY FILTERS */}
         <FormControl fullWidth sx={{ gap: 0.5, marginTop: 2 }}>
-          <InputLabel id="nationality-select">Select nationality</InputLabel>
+          <InputLabel sx={{ color: "#E10600" }} id="nationality-select">
+            Select nationality
+          </InputLabel>
           <Select
             labelId="nationality-select"
             value={driverNationality}
             onChange={handleNationalityChange}
-            MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
+            MenuProps={{ PaperProps: { sx: { maxHeight: 300, backgroundColor: "#333333", color: "#FFFFFF" } } }}
             label="Select nationality"
+            sx={{ color: "#FFFFFF" }}
           >
             {nationalitiesData.map((nationality) => (
               <MenuItem key={nationality} value={nationality}>
@@ -145,57 +158,82 @@ function Filters() {
           </Select>
           <Box mt={1}>
             {driverNationality && (
-              <Chip key={driverNationality} label={driverNationality} />
+              <Chip
+                key={driverNationality}
+                label={driverNationality}
+                sx={{
+                  backgroundColor: "#E10600",
+                  color: "#FFF",
+                }}
+              />
             )}
           </Box>
         </FormControl>
-        <Divider />
+        <Divider sx={{ backgroundColor: "#E10600", marginY: 2 }} />
+
         {/* DATE OF BIRTH SORT */}
         <FormControl fullWidth sx={{ gap: 0.5, marginTop: 2 }}>
-          <InputLabel id="dob-sort-label">Sort by date of birth</InputLabel>
+          <InputLabel sx={{ color: "#E10600" }} id="dob-sort-label">
+            Sort by date of birth
+          </InputLabel>
           <Select
             labelId="dob-sort-label"
             value={dobSort}
             onChange={(e) => setDobSort(e.target.value)}
             label="Sort by date of birth"
+            sx={{ color: "#FFFFFF" }}
           >
             <MenuItem value="asc">Ascendant</MenuItem>
             <MenuItem value="desc">Descendant</MenuItem>
           </Select>
           <Box></Box>
         </FormControl>
-        <Divider />
+        <Divider sx={{ backgroundColor: "#E10600", marginY: 2 }} />
 
         {/* ORIGIN FILTER */}
         <FormControl fullWidth sx={{ gap: 0.5, marginTop: 2 }}>
-          <InputLabel id="origin-filter">Sort by origin</InputLabel>
+          <InputLabel sx={{ color: "#E10600" }} id="origin-filter">
+            Sort by origin
+          </InputLabel>
           <Select
             labelId="origin-filter"
             value={driverOrigin}
             onChange={(e) => setDriverOrigin(e.target.value)}
             label="Sort by origin"
+            sx={{ color: "#FFFFFF" }}
           >
             <MenuItem value={true}>Data Base</MenuItem>
             <MenuItem value={false}>External API</MenuItem>
           </Select>
           <Box></Box>
         </FormControl>
-        <Divider />
+        <Divider sx={{ backgroundColor: "#E10600", marginY: 2 }} />
 
         {/* APPLY AND CLEAR BUTTONS */}
         <Button
           variant="contained"
-          color="primary"
           onClick={handleFilterChange}
           disabled={isApplyDisabled}
+          sx={{
+            backgroundColor: "#E10600",
+            "&:hover": { backgroundColor: "#FF1E1E" },
+            color: "#FFF",
+          }}
         >
           Apply
         </Button>
         <Button
           variant="outlined"
-          color="secondary"
           onClick={handleClearFilters}
-          sx={{ mt: 1 }}
+          sx={{
+            mt: 1,
+            borderColor: "#E10600",
+            color: "#FFF",
+            "&:hover": {
+              borderColor: "#FF1E1E",
+              backgroundColor: "#333333",
+            },
+          }}
           disabled={isClearDisabled}
         >
           Clear Filters

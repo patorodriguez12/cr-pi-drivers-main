@@ -1,38 +1,97 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDriverById } from "../../redux/actions"; // Importar la acción
+import { getDriverById } from "../../redux/actions";
+import { Box, Button, Typography, Paper } from "@mui/material";
 
 function Detail() {
-  const { id } = useParams(); // Obtener el ID de la URL
-  const dispatch = useDispatch(); // Crear dispatch para disparar la acción
-  const driver = useSelector((state) => state.driver); // Seleccionar el driver del estado de Redux
-  const loading = useSelector((state) => state.loading); // Puedes agregar un estado de carga desde Redux si lo tienes
-  const error = useSelector((state) => state.error); // Manejo de errores si está en tu estado
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const driver = useSelector((state) => state.driver);
+  const loading = useSelector((state) => state.loading);
+  const error = useSelector((state) => state.error);
 
   useEffect(() => {
-    dispatch(getDriverById(id)); // Disparar la acción para obtener el driver por ID al montar el componente
-  }, [dispatch, id]); // Ejecutar el efecto cuando cambie el ID
+    dispatch(getDriverById(id));
+  }, [dispatch, id]);
 
-  // Mostrar mensaje de carga si los datos aún están cargando
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   if (loading) return <div>Loading...</div>;
-
-  // Mostrar mensaje de error si ocurrió un error al cargar los datos
   if (error) return <div>Error loading driver: {error}</div>;
-
-  // Si el driver no existe, mostrar un mensaje de "No encontrado"
   if (!driver || driver.length === 0) return <div>No driver found</div>;
 
   return (
-    <div>
-      <h1>
-        {driver[0].forename} {driver[0].surname}
-      </h1>
-      <p>Nationality: {driver[0].nationality}</p>
-      <p>Date of Birth: {driver[0].dob}</p>
-      <p>Description: {driver[0].description}</p>
-      <p>Teams: {driver[0].teams}</p>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        backgroundColor: "#1C1C1C",
+        padding: "20px",
+      }}
+    >
+      <Paper
+        sx={{
+          padding: "30px",
+          backgroundColor: "#2B2A4C",
+          borderRadius: "10px",
+          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.6)",
+          maxWidth: "600px",
+          textAlign: "center",
+          color: "#EEE2DE",
+        }}
+      >
+        <Typography
+          variant="h3"
+          sx={{ color: "#E10600", fontWeight: "bold", marginBottom: "20px" }}
+        >
+          {driver[0].forename} {driver[0].surname}
+        </Typography>
+        <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+          Nationality: {driver[0].nationality}
+        </Typography>
+        <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+          Date of Birth: {driver[0].dob}
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            marginBottom: "20px",
+            maxHeight: "250px",
+            overflowY: "auto",
+            padding: "10px",
+            backgroundColor: "#1A1A1A",
+            borderRadius: "5px",
+          }}
+        >
+          {driver[0].description}
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{ marginBottom: "10px", fontWeight: "bold" }}
+        >
+          Teams: {driver[0].teams}
+        </Typography>
+
+        <Button
+          variant="contained"
+          onClick={handleGoBack}
+          sx={{
+            marginTop: "20px",
+            backgroundColor: "#E10600",
+            "&:hover": { backgroundColor: "#FF1E1E" },
+          }}
+        >
+          Go Back
+        </Button>
+      </Paper>
+    </Box>
   );
 }
 
